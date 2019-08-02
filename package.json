@@ -1,0 +1,59 @@
+{
+  "name": "super-page-maker",
+  "version": "0.0.0",
+  "description": "Super Page Maker",
+  "homepage": "https://superpagemaker.balmjs.com",
+  "license": "MIT",
+  "author": {
+    "name": "Elf-mousE",
+    "email": "ifmouz@gmail.com",
+    "url": "http://elf-mouse.me"
+  },
+  "scripts": {
+    "start": "egg-scripts start --daemon --title=egg-server-super-page-maker",
+    "stop": "egg-scripts stop --title=egg-server-super-page-maker",
+    "dev": "egg-bin dev",
+    "debug": "egg-bin debug",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/balmjs/super-page-maker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/balmjs/super-page-maker/issues"
+  },
+  "dependencies": {
+    "egg": "^2.23.0",
+    "egg-mongoose": "^3.2.0",
+    "egg-scripts": "^2.11.0"
+  },
+  "devDependencies": {
+    "autod": "^3.1.0",
+    "autod-egg": "^1.1.0",
+    "babel-eslint": "^10.0.2",
+    "egg-bin": "^4.13.0",
+    "egg-ci": "^1.13.0",
+    "egg-mock": "^3.23.1",
+    "eslint": "^6.1.0",
+    "eslint-config-egg": "^7.4.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "private": true,
+  "egg": {
+    "declarations": true
+  },
+  "ci": {
+    "version": "10"
+  }
+}
