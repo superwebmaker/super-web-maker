@@ -3,7 +3,9 @@
 {% block title %}Maker{% endblock %}
 
 {% block content %}
-  <div class="page--maker">Hello {{ name }}, gg</div>
+  <div class="page--wrapper page--maker">
+    <canvas id="maker"></canvas>
+  </div>
 {% endblock %}
 
 {% block scripts %}
