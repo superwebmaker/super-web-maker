@@ -1,1 +1,1 @@
-# Super Page Maker
+# Super Web Maker

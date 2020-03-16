@@ -1,22 +1,29 @@
+const path = require('path');
+
 module.exports = {
-  debug: true,
-  static: false,
+  inFrontend: false,
   server: {
-    open: false,
     proxy: '127.0.0.1:7001'
   },
   roots: {
     source: 'resources'
   },
   styles: {
-    ext: 'scss'
+    extname: 'scss',
+    dartSass: true
   },
   scripts: {
     entry: {
       app: './resources/scripts/app.js'
+    },
+    alias: {
+      '@': path.resolve(__dirname, '../resources/scripts')
     }
   },
   assets: {
     mainDir: 'app/public'
+  },
+  logs: {
+    level: 2
   }
 };

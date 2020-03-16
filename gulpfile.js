@@ -1,23 +1,8 @@
 const balm = require('balm');
 const config = require('./config/balmrc');
-const { spawn } = require('child_process');
-
-balm.beforeTask = () => {
-  const egg = spawn('egg-bin', ['dev']);
-
-  egg.stdout.on('data', data => {
-    console.log(`stdout: ${data}`);
-  });
-
-  egg.stderr.on('data', data => {
-    console.log(`stderr: ${data}`);
-  });
-
-  egg.on('close', code => {
-    console.log(`child process exited with code ${code}`);
-  });
-};
+const beforeTask = require('./config/before-task');
 
 balm.config = config;
+balm.beforeTask = beforeTask;
 
 balm.go();
