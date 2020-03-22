@@ -12,7 +12,7 @@
   "scripts": {
     "start": "egg-scripts start --daemon --title=egg-server-super-web-maker",
     "stop": "egg-scripts stop --title=egg-server-super-web-maker",
-    "dev": "npm start && gulp -S",
+    "dev": "gulp -S",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
@@ -35,6 +35,7 @@
     "egg-mongoose": "^3.2.0",
     "egg-scripts": "^2.13.0",
     "egg-sequelize": "^5.2.1",
+    "egg-validate": "^2.0.2",
     "egg-view-nunjucks": "^2.2.0",
     "mysql2": "^2.1.0",
     "vue": "^2.6.11",

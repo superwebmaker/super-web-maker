@@ -5,17 +5,17 @@ const templates = [
     output: 'views',
     renameOptions: {
       basename: 'home',
-      extname: '.nj',
-    },
+      extname: '.nj'
+    }
   },
   {
     input: 'maker.html',
     output: 'views',
     renameOptions: {
       basename: 'maker',
-      extname: '.nj',
-    },
-  },
+      extname: '.nj'
+    }
+  }
 ];
 
 module.exports = function publish(mix) {

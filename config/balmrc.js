@@ -4,7 +4,13 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
   inFrontend: false,
   server: {
-    proxy: '127.0.0.1:7001'
+    proxyConfig: {
+      context: '/api',
+      options: {
+        target: 'http://127.0.0.1:7001',
+        changeOrigin: true
+      }
+    }
   },
   styles: {
     extname: 'scss',
@@ -13,7 +19,7 @@ module.exports = {
   scripts: {
     entry: {
       lib: ['vue', 'vue-router', 'axios'],
-      app: './src/scripts/app.js'
+      app: './src/scripts/main.js'
     },
     loaders: [
       {
