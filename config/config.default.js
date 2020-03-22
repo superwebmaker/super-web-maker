@@ -1,30 +1,29 @@
 /* eslint valid-jsdoc: "off" */
 const path = require('path');
-const mongoose = require('./db-mongoose');
+// const mongoose = require('./db-mongoose');
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
-module.exports = appInfo => {
+module.exports = (appInfo) => {
   /**
    * built-in config
    * @type {Egg.EggAppConfig}
    **/
   const config = (exports = {
-    mongoose,
     view: {
       root: [path.join(appInfo.baseDir, 'app/view')].join(','),
       defaultViewEngine: 'nunjucks',
-      defaultExtension: '.nj'
+      defaultExtension: '.nj',
     },
     static: {
-      dir: ['css', 'js', 'img', 'font'].map(value => {
+      dir: ['css', 'js', 'img', 'font'].map((value) => {
         return {
           prefix: `/${value}`,
-          dir: path.resolve(appInfo.baseDir, `app/public/${value}`)
+          dir: path.resolve(appInfo.baseDir, `app/public/${value}`),
         };
-      })
-    }
+      }),
+    },
   });
 
   // use for cookie sign key, should change to your own and keep security
@@ -40,6 +39,6 @@ module.exports = appInfo => {
 
   return {
     ...config,
-    ...userConfig
+    ...userConfig,
   };
 };

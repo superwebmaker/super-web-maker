@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "5f9b025ca1d26b20e17e";
+/******/ 	var hotCurrentHash = "bdef2b94b4f36bd5799c";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -955,25 +955,25 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 
 /***/ }),
 
-/***/ "./resources/scripts/app.js":
-/*!**********************************!*\
-  !*** ./resources/scripts/app.js ***!
-  \**********************************/
+/***/ "./src/scripts/app.js":
+/*!****************************!*\
+  !*** ./src/scripts/app.js ***!
+  \****************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const UNIT = 64;\nconst canvas = document.getElementById('maker');\ncanvas.width = 1920;\ncanvas.height = 1920 / 16 * 9;\nconst context = canvas.getContext('2d');\n\nfor (let j = 1; j <= UNIT; j++) {\n  for (let i = 1; i <= UNIT; i++) {\n    const x = UNIT * (j - 1);\n    const y = UNIT * (i - 1); // console.log(`x: ${j} - ${x}, y: ${i} - ${y}`);\n\n    context.beginPath(); // context.setLineDash([5]);\n\n    context.rect(x, y, UNIT, UNIT);\n    context.font = '12px Arial';\n    context.fillText(`${i}:${j}`, x, y + 12, UNIT);\n    context.stroke();\n  }\n}//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvc2NyaXB0cy9hcHAuanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvc2NyaXB0cy9hcHAuanM/Y2U0YyJdLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBVTklUID0gNjQ7XG5cbmNvbnN0IGNhbnZhcyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtYWtlcicpO1xuY2FudmFzLndpZHRoID0gMTkyMDtcbmNhbnZhcy5oZWlnaHQgPSAoMTkyMCAvIDE2KSAqIDk7XG5jb25zdCBjb250ZXh0ID0gY2FudmFzLmdldENvbnRleHQoJzJkJyk7XG5cbmZvciAobGV0IGogPSAxOyBqIDw9IFVOSVQ7IGorKykge1xuICBmb3IgKGxldCBpID0gMTsgaSA8PSBVTklUOyBpKyspIHtcbiAgICBjb25zdCB4ID0gVU5JVCAqIChqIC0gMSk7XG4gICAgY29uc3QgeSA9IFVOSVQgKiAoaSAtIDEpO1xuXG4gICAgLy8gY29uc29sZS5sb2coYHg6ICR7an0gLSAke3h9LCB5OiAke2l9IC0gJHt5fWApO1xuXG4gICAgY29udGV4dC5iZWdpblBhdGgoKTtcbiAgICAvLyBjb250ZXh0LnNldExpbmVEYXNoKFs1XSk7XG4gICAgY29udGV4dC5yZWN0KHgsIHksIFVOSVQsIFVOSVQpO1xuICAgIGNvbnRleHQuZm9udCA9ICcxMnB4IEFyaWFsJztcbiAgICBjb250ZXh0LmZpbGxUZXh0KGAke2l9OiR7an1gLCB4LCB5ICsgMTIsIFVOSVQpO1xuICAgIGNvbnRleHQuc3Ryb2tlKCk7XG4gIH1cbn1cbiJdLCJtYXBwaW5ncyI6IkFBQUE7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUdBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./resources/scripts/app.js\n");
+eval("const UNIT = 64;\nconst canvas = document.getElementById('maker');\ncanvas.width = 1920;\ncanvas.height = 1920 / 16 * 9;\nconst context = canvas.getContext('2d');\n\nfor (let j = 1; j <= UNIT; j++) {\n  for (let i = 1; i <= UNIT; i++) {\n    const x = UNIT * (j - 1);\n    const y = UNIT * (i - 1); // console.log(`x: ${j} - ${x}, y: ${i} - ${y}`);\n\n    context.beginPath(); // context.setLineDash([5]);\n\n    context.rect(x, y, UNIT, UNIT);\n    context.font = '12px Arial';\n    context.fillText(`${i}:${j}`, x, y + 12, UNIT);\n    context.stroke();\n  }\n}//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvc2NyaXB0cy9hcHAuanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvc2NyaXB0cy9hcHAuanM/Y2U0ZCJdLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBVTklUID0gNjQ7XG5cbmNvbnN0IGNhbnZhcyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtYWtlcicpO1xuY2FudmFzLndpZHRoID0gMTkyMDtcbmNhbnZhcy5oZWlnaHQgPSAoMTkyMCAvIDE2KSAqIDk7XG5jb25zdCBjb250ZXh0ID0gY2FudmFzLmdldENvbnRleHQoJzJkJyk7XG5cbmZvciAobGV0IGogPSAxOyBqIDw9IFVOSVQ7IGorKykge1xuICBmb3IgKGxldCBpID0gMTsgaSA8PSBVTklUOyBpKyspIHtcbiAgICBjb25zdCB4ID0gVU5JVCAqIChqIC0gMSk7XG4gICAgY29uc3QgeSA9IFVOSVQgKiAoaSAtIDEpO1xuXG4gICAgLy8gY29uc29sZS5sb2coYHg6ICR7an0gLSAke3h9LCB5OiAke2l9IC0gJHt5fWApO1xuXG4gICAgY29udGV4dC5iZWdpblBhdGgoKTtcbiAgICAvLyBjb250ZXh0LnNldExpbmVEYXNoKFs1XSk7XG4gICAgY29udGV4dC5yZWN0KHgsIHksIFVOSVQsIFVOSVQpO1xuICAgIGNvbnRleHQuZm9udCA9ICcxMnB4IEFyaWFsJztcbiAgICBjb250ZXh0LmZpbGxUZXh0KGAke2l9OiR7an1gLCB4LCB5ICsgMTIsIFVOSVQpO1xuICAgIGNvbnRleHQuc3Ryb2tlKCk7XG4gIH1cbn1cbiJdLCJtYXBwaW5ncyI6IkFBQUE7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUdBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/scripts/app.js\n");
 
 /***/ }),
 
 /***/ 0:
-/*!***************************************************************************************************************!*\
-  !*** multi ./resources/scripts/app.js webpack-hot-middleware/client?reload=true&noInfo=true&path=/__balm_hmr ***!
-  \***************************************************************************************************************/
+/*!*********************************************************************************************************!*\
+  !*** multi ./src/scripts/app.js webpack-hot-middleware/client?reload=true&noInfo=true&path=/__balm_hmr ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./resources/scripts/app.js */"./resources/scripts/app.js");
+__webpack_require__(/*! ./src/scripts/app.js */"./src/scripts/app.js");
 module.exports = __webpack_require__(/*! webpack-hot-middleware/client?reload=true&noInfo=true&path=/__balm_hmr */"./node_modules/webpack-hot-middleware/client.js?reload=true&noInfo=true&path=/__balm_hmr");
 
 
