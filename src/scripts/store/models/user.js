@@ -3,19 +3,14 @@ import $http from 'axios';
 export default {
   data() {
     return {
-      menu: []
+      modules: []
     };
   },
   methods: {
-    async getMenu() {
-      let response = await $http.get('/v2/topics');
-      let { code, data, message } = response;
+    async getModules() {
+      let data = await $http.get('/users');
 
-      if (code === 200) {
-        this.menu = data;
-      } else {
-        alert(message);
-      }
+      console.log(data);
     }
   }
 };

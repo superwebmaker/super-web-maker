@@ -1,6 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 const path = require('path');
-// const mongoose = require('./db-mongoose');
+const mysql = require('./db-mysql');
+const sequelize = require('./sequelize');
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -23,7 +24,9 @@ module.exports = (appInfo) => {
           dir: path.resolve(appInfo.baseDir, `app/public/${value}`)
         };
       })
-    }
+    },
+    mysql,
+    sequelize
   });
 
   // use for cookie sign key, should change to your own and keep security

@@ -6,11 +6,11 @@ module.exports = {
     // 端口号
     port: '3306',
     // 用户名
-    user: '',
+    user: 'root',
     // 密码
     password: '',
     // 数据库名
-    database: ''
+    database: 'super-web-maker'
   },
   // 是否加载到 app 上，默认开启
   app: true,
