@@ -1,0 +1,15 @@
+<h1>Hello admin login</h1>
+
+<form method="POST" action="/admin/login">
+  <div>
+    <label>username</label>
+    <input name="username">
+  </div>
+  <div>
+    <label>password</label>
+    <input name="password">
+  </div>
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>

@@ -39,6 +39,20 @@ class UserService extends Service {
     }
     return user.destroy();
   }
+
+  async login({ username, password }) {
+    return await this.ctx.model.User.findOne({
+      where: {
+        name: username,
+        password
+      },
+      include: [
+        {
+          model: this.ctx.model.AccessToken
+        }
+      ]
+    });
+  }
 }
 
 module.exports = UserService;

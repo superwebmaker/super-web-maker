@@ -12,5 +12,12 @@ module.exports = (app) => {
     updated_at: DATE
   });
 
+  User.prototype.associate = function () {
+    app.model.User.hasOne(app.model.AccessToken, {
+      as: 'access_token',
+      foreignKey: 'user_id'
+    });
+  };
+
   return User;
 };

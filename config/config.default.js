@@ -1,6 +1,9 @@
 /* eslint valid-jsdoc: "off" */
 const path = require('path');
-const sequelize = require('./sequelize');
+const sequelize = require('./plugins/sequelize');
+const bcrypt = require('./plugins/bcrypt');
+const jwt = require('./plugins/jwt');
+const cors = require('./plugins/cors');
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -39,7 +42,10 @@ module.exports = (appInfo) => {
     // 只对 /api 前缀的 url 路径生效
     errorHandler: {
       match: '/api'
-    }
+    },
+    bcrypt,
+    jwt,
+    cors
   };
 
   return {
