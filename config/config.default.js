@@ -1,6 +1,5 @@
 /* eslint valid-jsdoc: "off" */
 const path = require('path');
-const mysql = require('./db-mysql');
 const sequelize = require('./sequelize');
 
 /**
@@ -25,7 +24,6 @@ module.exports = (appInfo) => {
         };
       })
     },
-    mysql,
     sequelize
   });
 

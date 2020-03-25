@@ -2,7 +2,7 @@ const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  inFrontend: false,
+  // inFrontend: false,
   server: {
     proxyConfig: {
       context: '/api',
