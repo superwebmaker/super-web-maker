@@ -1,15 +1,20 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import VueMeta from 'vue-meta';
-import baseRoutes from './base';
-import aboutRoutes from './about';
+import frontendBaseRoutes from './frontend/base';
+import backendBaseRoutes from './backend/base';
+import NotFound from '@/views/not-found';
 
 Vue.use(VueRouter);
-// Vue.use(VueMeta);
 
-let routes = baseRoutes.concat(aboutRoutes);
+let routes = [].concat(frontendBaseRoutes, backendBaseRoutes, [
+  {
+    path: '*',
+    component: NotFound
+  }
+]);
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 });
 

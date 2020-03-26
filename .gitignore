@@ -12,5 +12,6 @@ run/
 *.un~
 typings/
 .nyc_output/
+.tmp/
 
 app/public/**/*.map

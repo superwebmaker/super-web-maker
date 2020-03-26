@@ -12,7 +12,6 @@
   "scripts": {
     "server:dev": "egg-bin dev",
     "client:dev": "gulp -S",
-    "dev": "npm run server:dev && npm run client:dev",
     "prod": "gulp -p -S",
     "start": "egg-scripts start --daemon --title=egg-server-super-web-maker",
     "stop": "egg-scripts stop --title=egg-server-super-web-maker",

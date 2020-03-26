@@ -1,38 +1,8 @@
 <template>
   <div class="container">
-    <ui-top-app-bar
-      contentSelector="#content-main"
-      :type="type"
-      :title="title"
-      @nav="$balmUI.onShow('openDrawer')"
-    >
-      <template #toolbar="{ toolbarItemClass }">
-        <ui-icon-a :class="toolbarItemClass" icon="file_download"></ui-icon-a>
-        <ui-icon-a :class="toolbarItemClass" icon="print"></ui-icon-a>
-        <ui-icon-a :class="toolbarItemClass" icon="bookmark"></ui-icon-a>
-      </template>
+    <ui-top-app-bar contentSelector="#content-main">
+      Super Web Maker
     </ui-top-app-bar>
-
-    <ui-drawer type="modal" v-model="openDrawer">
-      <ui-drawer-header
-        :innerClass="[$themeColor('on-primary'), $themeColor('primary-bg')]"
-      >
-        <ui-drawer-title>Header here</ui-drawer-title>
-      </ui-drawer-header>
-      <ui-drawer-content>
-        <ui-list>
-          <ui-item activated @click="$router.back()">
-            <ui-item-first-content>
-              <ui-icon>arrow_back</ui-icon>
-            </ui-item-first-content>
-            <ui-item-text-content>Back</ui-item-text-content>
-          </ui-item>
-          <ui-list-divider></ui-list-divider>
-        </ui-list>
-      </ui-drawer-content>
-    </ui-drawer>
-
-    <ui-drawer-backdrop></ui-drawer-backdrop>
 
     <div id="content-main">
       <router-view></router-view>
@@ -42,16 +12,6 @@
 
 <script>
 export default {
-  name: 'app',
-  data() {
-    return {
-      type: 0,
-      title: 'Hello BalmUI',
-      openDrawer: false
-    };
-  },
-  created() {
-    this.$store.getModules();
-  }
+  name: 'app'
 };
 </script>

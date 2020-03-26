@@ -10,7 +10,8 @@ module.exports = {
         target: 'http://127.0.0.1:7001',
         changeOrigin: true
       }
-    }
+    },
+    historyOptions: true
   },
   styles: {
     extname: 'scss',
@@ -34,6 +35,7 @@ module.exports = {
     }
   },
   assets: {
+    publicUrl: '/',
     mainDir: 'app/public'
     // cache: true
   },
