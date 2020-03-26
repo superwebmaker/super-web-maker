@@ -9,7 +9,8 @@ module.exports = (app) => {
 
   adminRouter.get('/', controller.backend.admin.index);
   adminRouter.post('/login', controller.backend.admin.login);
-  // adminRouter.post('/logout', controller.backend.admin.logout);
-  // adminRouter.post('/refresh', controller.backend.admin.refresh);
+  adminRouter.get('/logout', controller.backend.admin.logout);
+  adminRouter.post('/refresh', controller.backend.admin.refresh);
   adminRouter.post('/me', controller.backend.admin.me);
+  adminRouter.get('/test', controller.backend.admin.test);
 };

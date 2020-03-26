@@ -48,7 +48,7 @@ class UserService extends Service {
       },
       include: [
         {
-          model: this.ctx.model.AccessToken
+          model: this.ctx.model.Role
         }
       ]
     });

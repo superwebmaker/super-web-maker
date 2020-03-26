@@ -4,9 +4,7 @@ class AdminController extends Controller {
   async index() {
     const { ctx } = this;
 
-    console.log('ctx.locals.user', ctx.locals.user);
-
-    await (ctx.locals.user
+    await (ctx.session.user
       ? ctx.render('admin/index')
       : ctx.render('admin/login'));
   }
@@ -18,12 +16,11 @@ class AdminController extends Controller {
     const { username, password } = ctx.request.body;
 
     // 进行验证 data 数据 登录是否成功
-    ctx.locals.user = await ctx.service.user.login(ctx, { username, password });
+    const user = await ctx.service.user.login({ username, password });
 
-    console.log('ctx.locals.user', ctx.locals.user);
-    console.log('--------');
+    ctx.session.user = user;
 
-    if (ctx.locals.user) {
+    if (ctx.session.user) {
       // 生成 token
       const token = app.jwt.sign(
         {
@@ -41,12 +38,28 @@ class AdminController extends Controller {
     }
   }
 
-  async logout() {}
+  async logout() {
+    const { ctx } = this;
 
-  async refresh() {}
+    ctx.session = null;
+    await ctx.redirect('/admin');
+  }
+
+  async refresh() {
+    const { token } = this.ctx.request.body;
+  }
 
   async me() {
-    return await this.ctx.locals.user;
+    return await this.ctx.session.user;
+  }
+
+  async test() {
+    const user = await this.ctx.service.user.login({
+      username: 'admin',
+      password: '123'
+    });
+    this.ctx.locals.user = user;
+    console.log(this.ctx.locals.user);
   }
 }
 
