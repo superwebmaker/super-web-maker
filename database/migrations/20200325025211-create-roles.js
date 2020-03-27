@@ -2,7 +2,7 @@ const table = require('../table');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, STRING, BOOLEAN } = Sequelize;
+    const { INTEGER, STRING } = Sequelize;
 
     await queryInterface.createTable(table.roles, {
       id: { type: INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
@@ -10,7 +10,7 @@ module.exports = {
       description: { type: STRING, allowNull: true },
       created_at: 'TIMESTAMP',
       updated_at: 'TIMESTAMP',
-      deleted: { type: BOOLEAN, defaultValue: false }
+      deleted_at: { type: 'TIMESTAMP', allowNull: true }
     });
 
     await queryInterface.addIndex(table.roles, {

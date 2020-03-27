@@ -2,13 +2,13 @@ const table = require('../table');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, BIGINT, STRING, BOOLEAN } = Sequelize;
+    const { INTEGER, BIGINT, STRING } = Sequelize;
 
     await queryInterface.createTable(table.users, {
       id: { type: BIGINT.UNSIGNED, primaryKey: true, autoIncrement: true },
       role_id: {
         type: INTEGER.UNSIGNED,
-        references: { model: 'roles', key: 'id' }
+        references: { model: table.roles, key: 'id' } // User belongsTo Role 1:1
       },
       name: { type: STRING, allowNull: false },
       mobile: { type: STRING(15), allowNull: true },
@@ -16,9 +16,10 @@ module.exports = {
       email_verified_at: { type: 'TIMESTAMP', allowNull: true },
       password: { type: STRING, allowNull: false },
       remember_token: STRING(100),
+      last_sign_in_at: 'TIMESTAMP',
       created_at: 'TIMESTAMP',
       updated_at: 'TIMESTAMP',
-      deleted: { type: BOOLEAN, defaultValue: false }
+      deleted_at: { type: 'TIMESTAMP', allowNull: true }
     });
 
     await queryInterface.addIndex(table.users, {

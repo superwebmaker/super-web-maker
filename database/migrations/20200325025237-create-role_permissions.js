@@ -8,7 +8,7 @@ module.exports = {
       role_id: {
         type: INTEGER.UNSIGNED,
         primaryKey: true,
-        references: { model: 'roles', key: 'id' }
+        references: { model: table.roles, key: 'id' } // Permissions hasMany Roles n:n
       },
       permission: { type: STRING(100), primaryKey: true }, // moduleName
       basic_function: {
@@ -16,7 +16,8 @@ module.exports = {
         values: ['create', 'read', 'update', 'delete']
       },
       created_at: 'TIMESTAMP',
-      updated_at: 'TIMESTAMP'
+      updated_at: 'TIMESTAMP',
+      deleted_at: { type: 'TIMESTAMP', allowNull: true }
     });
   },
 

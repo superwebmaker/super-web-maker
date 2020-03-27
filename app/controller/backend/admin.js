@@ -52,15 +52,6 @@ class AdminController extends Controller {
   async me() {
     return await this.ctx.session.user;
   }
-
-  async test() {
-    const user = await this.ctx.service.user.login({
-      username: 'admin',
-      password: '123'
-    });
-    this.ctx.locals.user = user;
-    console.log(this.ctx.locals.user);
-  }
 }
 
 module.exports = AdminController;
