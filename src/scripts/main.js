@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import App from '@/views/layouts/app';
 import router from '@/routes';
-import $http from '@/plugins/$http';
 import $bus from '@/plugins/$bus';
+import $http from '@/plugins/$http';
 import $store from '@/plugins/$store';
 
 import BalmUI from 'balm-ui';
 
 Vue.config.productionTip = false;
-Vue.use($http);
 Vue.use($bus);
+Vue.use($http);
 Vue.use($store);
 
 Vue.use(BalmUI);

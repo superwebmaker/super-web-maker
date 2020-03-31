@@ -9,6 +9,9 @@
 export default {
   metaInfo: {
     title: 'Home'
+  },
+  mounted() {
+    this.$store.getUser();
   }
 };
 </script>

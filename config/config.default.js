@@ -34,14 +34,19 @@ module.exports = (appInfo) => {
   config.keys = appInfo.name + '_1564709168697_8788';
 
   // add your middleware config here
-  config.middleware = ['errorHandler'];
+  config.middleware = ['errorHandler']; // 'errorHandler' or 'error'
 
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
-    // 只对 /api 前缀的 url 路径生效
     // errorHandler: {
+    //   // 只对 /api 前缀的 url 路径生效
     //   match: '/api'
+    // },
+    // error: {
+    //   // 这里使用 appInfo.env 来判断环境，仅仅在非生产环境下打开堆栈信息，用于调试
+    //   postFormat: (e, { stack, ...rest }) =>
+    //     appInfo.env === 'prod' ? rest : { stack, ...rest }
     // },
     bcrypt,
     jwt,

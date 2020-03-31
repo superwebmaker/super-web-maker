@@ -6,7 +6,7 @@
 module.exports = {
   secret: '123456',
   enable: true,
-  sign: {
-    expiresIn: 60000 // '7d'
+  signOptions: {
+    expiresIn: 60
   }
 };

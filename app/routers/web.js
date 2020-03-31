@@ -5,9 +5,7 @@ module.exports = (app) => {
   router.get('/', controller.frontend.home.index);
 
   // Backend
-  const adminRouter = router.namespace('/admin');
-
-  adminRouter.get('/', controller.backend.admin.index);
-  adminRouter.post('/login', controller.backend.admin.login);
-  adminRouter.post('/logout', controller.backend.admin.logout);
+  router.get('/admin', controller.backend.admin.index);
+  router.post('/api/auth/login', controller.backend.auth.login);
+  router.post('/api/auth/logout', controller.backend.auth.logout);
 };

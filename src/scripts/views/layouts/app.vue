@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <ui-top-app-bar contentSelector="#content-main">
+    <ui-top-app-bar contentSelector="#content-main" :navIcon="false">
       Super Web Maker
     </ui-top-app-bar>
 

@@ -1,9 +1,21 @@
 const koajwt = require('koa-jwt2');
 const UnauthorizedError = require('koa-jwt2/lib/errors/UnauthorizedError');
 const jwt = require('jsonwebtoken');
+
 const JWT = Symbol('Application#jwt');
 
 module.exports = {
+  generateToken(payload, secret, options, callback) {
+    const config = this.config.jwt;
+
+    const jwtSignOptions = Object.assign(
+      {},
+      config.signOptions || {},
+      options // contains `options.jwtid`
+    );
+
+    return jwt.sign(payload, secret, jwtSignOptions, callback);
+  },
   get jwt() {
     if (!this[JWT]) {
       const config = this.config.jwt;
@@ -19,15 +31,10 @@ module.exports = {
           options = {};
         }
 
-        return jwt.sign(
-          payload,
-          secret,
-          Object.assign({}, config.sign || {}, options),
-          callback
-        );
+        return this.generateToken(payload, secret, options, callback);
       };
 
-      this[JWT].verify = (token, secret, options, callback) => {
+      this[JWT].refresh = (token, secret, options, callback) => {
         if (typeof secret !== 'string') {
           callback = options;
           options = secret || {};
@@ -37,17 +44,23 @@ module.exports = {
           options = {};
         }
 
-        return jwt.verify(
+        const payload = jwt.verify(
           token,
           secret,
-          Object.assign({}, config.verify || {}, options),
-          callback
+          Object.assign({}, config.verifyOptions || {}, options)
         );
+        delete payload.iat;
+        delete payload.exp;
+        delete payload.nbf;
+        delete payload.jti; //We are generating a new token, if you are using jwtid during signing, pass it in options
+
+        return this.generateToken(payload, secret, options, callback);
       };
 
       this[JWT].decode = jwt.decode;
       this[JWT].UnauthorizedError = UnauthorizedError;
     }
+
     return this[JWT];
   }
 };

@@ -5,7 +5,7 @@ module.exports = {
   // inFrontend: false,
   server: {
     proxyConfig: {
-      context: '/api',
+      context: ['/api'],
       options: {
         target: 'http://127.0.0.1:7001',
         changeOrigin: true
