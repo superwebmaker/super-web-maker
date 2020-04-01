@@ -1,7 +1,6 @@
 <template>
   <div class="page--home">
-    <h2><a href="//balmjs.com/">BalmJS</a></h2>
-    <p>A flexible front-end workflow for webapps</p>
+    Home Page
   </div>
 </template>
 
@@ -9,9 +8,6 @@
 export default {
   metaInfo: {
     title: 'Home'
-  },
-  mounted() {
-    this.$store.getUser();
   }
 };
 </script>

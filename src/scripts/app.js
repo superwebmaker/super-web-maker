@@ -1,22 +1,22 @@
-const UNIT = 64;
+import Vue from 'vue';
+import App from '@/views/layouts/frontend';
+import router from '@/routes/frontend';
+import $bus from '@/plugins/$bus';
+import $http from '@/plugins/$http';
+import $store from '@/plugins/$store';
 
-const canvas = document.getElementById('maker');
-canvas.width = 1920;
-canvas.height = (1920 / 16) * 9;
-const context = canvas.getContext('2d');
+import BalmUI from 'balm-ui';
 
-for (let j = 1; j <= UNIT; j++) {
-  for (let i = 1; i <= UNIT; i++) {
-    const x = UNIT * (j - 1);
-    const y = UNIT * (i - 1);
+Vue.config.productionTip = false;
+Vue.use($bus);
+Vue.use($http);
+Vue.use($store);
 
-    // console.log(`x: ${j} - ${x}, y: ${i} - ${y}`);
+Vue.use(BalmUI);
 
-    context.beginPath();
-    // context.setLineDash([5]);
-    context.rect(x, y, UNIT, UNIT);
-    context.font = '12px Arial';
-    context.fillText(`${i}:${j}`, x, y + 12, UNIT);
-    context.stroke();
-  }
-}
+new Vue({
+  el: '#app',
+  components: { App },
+  template: '<app/>',
+  router
+});

@@ -11,7 +11,9 @@ module.exports = {
         changeOrigin: true
       }
     },
-    historyOptions: true
+    historyOptions: {
+      index: '/admin.html'
+    }
   },
   styles: {
     extname: 'scss',
@@ -20,7 +22,8 @@ module.exports = {
   scripts: {
     entry: {
       lib: ['vue', 'vue-router', 'axios'],
-      app: './src/scripts/main.js'
+      admin: './src/scripts/admin.js',
+      app: './src/scripts/app.js'
     },
     loaders: [
       {

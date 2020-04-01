@@ -1,4 +1,4 @@
-import { getToken, setToken } from '@/store/auth';
+import { getToken, saveToken } from '@/store/auth';
 
 export default {
   data() {
@@ -13,21 +13,15 @@ export default {
     },
     async getUser() {
       if (getToken()) {
-        let response = await this.$http.get('/users');
-        // if (response) {
-        //   let result = response.data;
-        //   if (result.code === 5000) {
-        //     // TODO: 接口异常错误未处理，临时写在业务逻辑中，待修正接口
-        //     localStorage.clear();
-        //     window.location.reload();
-        //   } else {
-        //     let data = result.data;
-        //     commit(types.USER_LOGIN, { data });
-        //   }
-        // }
+        let response = await this.$http.get('auth/me');
+        if (response) {
+          console.log(response);
+        }
       } else {
         console.warn('unlogin');
       }
+
+      return this.user;
     },
     async login(formData) {
       let { accessToken, expiresIn } = await this.$http.post(
@@ -35,9 +29,7 @@ export default {
         formData
       );
 
-      setToken(accessToken);
-
-      this.getUser();
+      saveToken(accessToken);
     },
     async logout() {
       await this.$http.post('/auth/logout');
