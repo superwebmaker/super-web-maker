@@ -13,5 +13,6 @@ run/
 typings/
 .nyc_output/
 .tmp/
+dist/
 
 app/public/**/*.map
