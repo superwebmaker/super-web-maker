@@ -19,7 +19,7 @@ export default {
       routerError: false
     };
   },
-  created() {
+  async created() {
     this.$bus.$on('router-ready', () => {
       this.routerReady = true;
     });

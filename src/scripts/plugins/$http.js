@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import $bus from '@/store/bus';
-import { getToken, saveToken, destroyToken } from '@/store/auth';
+import auth from '@/store/auth';
+import { API_ENDPOINT } from '@/config';
+import API from '@/config/api';
 
-axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = API_ENDPOINT;
 axios.defaults.headers['X-CSRF-TOKEN'] = Cookies.get('csrfToken');
 
 const errorHandler = ({ status, message }) => {
@@ -12,9 +14,9 @@ const errorHandler = ({ status, message }) => {
 
 axios.interceptors.request.use(
   (config) => {
-    const token = getToken();
+    const token = auth.getAccessToken();
     if (token) {
-      config.headers['Authorization'] = `Bearer ${getToken()}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     // config.headers['Content-Type'] = 'application/json';
     return config;
@@ -36,32 +38,60 @@ axios.interceptors.response.use(
     }
   },
   function (error) {
+    const { config, status } = error.response;
+
+    if (config.url.includes('/login')) {
+      return Promise.reject(error);
+    }
+
+    if (status === 403) {
+      return auth.forceLogout();
+    }
+
+    if (status !== 401) {
+      return Promise.reject(error);
+    }
+
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    // if (
+    //   status === 401 &&
+    //   originalRequest.url === 'http://13.232.130.60:8081/v1/auth/token'
+    // ) {
+    //   $bus.router.push({ name: 'login' });
+    //   return Promise.reject(error);
+    // }
+
+    if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = getToken();
+
+      const refreshToken = auth.getRefreshToken();
+      if (!refreshToken) {
+        return auth.forceLogout();
+      }
+
       return axios
-        .post('/auth/refresh-token', {
+        .post(API.refreshToken, {
           token: refreshToken
         })
         .then((response) => {
           if (response.status === 201) {
-            const newAccessToken = response.data.accessToken;
-            saveToken(newAccessToken);
+            // console.log('new token', response.data);
+            auth.setToken(response.data);
+
             axios.defaults.headers.common[
               'Authorization'
-            ] = `Bearer ${getToken()}`;
-            // originalRequest.baseURL = ''; // url已经带上了 `/api`，避免出现 `/api/api` 的情况
+            ] = `Bearer ${auth.getAccessToken()}`;
+
             return axios(originalRequest);
           }
         })
-        .catch((response) => {
-          console.error('refreshtoken error =>', response);
-          // 刷新 token 失败，神仙也救不了了，跳转到首页重新登录吧
-          $bus.router.push('/login');
+        .catch(() => {
+          console.error('Unable to refresh access token');
+          auth.forceLogout();
         });
     }
+
     return Promise.reject(error);
   }
 );

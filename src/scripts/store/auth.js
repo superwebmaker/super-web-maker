@@ -1,16 +1,34 @@
-const AUTH_TOKEN_NAME = 'SWM_token';
+const ACCESS_TOKEN = 'access_token'; // short lifetime
+const REFRESH_TOKEN = 'refresh_token'; // long lifetime
 
-const noop = () => {};
-
-export const getToken = () => {
-  return window.localStorage.getItem(AUTH_TOKEN_NAME);
+const setToken = ({ accessToken, refreshToken }) => {
+  localStorage.setItem(ACCESS_TOKEN, accessToken);
+  localStorage.setItem(REFRESH_TOKEN, refreshToken);
 };
 
-export const saveToken = (token) => {
-  window.localStorage.setItem(AUTH_TOKEN_NAME, token);
+const getAccessToken = () => {
+  return localStorage.getItem(ACCESS_TOKEN);
 };
 
-export const destroyToken = (cb = noop) => {
-  window.localStorage.removeItem(AUTH_TOKEN_NAME);
-  cb();
+const getRefreshToken = () => {
+  return localStorage.getItem(REFRESH_TOKEN);
+};
+
+const clearToken = () => {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(REFRESH_TOKEN);
+};
+
+const forceLogout = () => {
+  clearToken();
+
+  window.location = '/login';
+};
+
+export default {
+  setToken,
+  getAccessToken,
+  getRefreshToken,
+  clearToken,
+  forceLogout
 };

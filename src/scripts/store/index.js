@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import user from './models/user';
+import auth from './models/auth';
 
 export default new Vue({
-  mixins: [user]
+  mixins: [auth]
 });
