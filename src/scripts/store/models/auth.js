@@ -11,7 +11,7 @@ export default {
   methods: {
     async me() {
       const accessToken = auth.getAccessToken();
-      if (accessToken) {
+      if (!this.isAuthenticated && accessToken) {
         let response = await this.$http.get('/users');
         if (response) {
           console.log(response);
