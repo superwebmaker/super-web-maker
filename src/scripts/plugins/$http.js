@@ -38,58 +38,72 @@ axios.interceptors.response.use(
     }
   },
   function (error) {
-    const { config, status } = error.response;
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      // console.log(error.response.data);
+      // console.log(error.response.status);
+      // console.log(error.response.headers);
 
-    if (config.url.includes('/login')) {
-      return Promise.reject(error);
-    }
+      const { status } = error.response;
 
-    if (status === 403) {
-      return auth.forceLogout();
-    }
-
-    if (status !== 401) {
-      return Promise.reject(error);
-    }
-
-    const originalRequest = error.config;
-
-    // if (
-    //   status === 401 &&
-    //   originalRequest.url === 'http://13.232.130.60:8081/v1/auth/token'
-    // ) {
-    //   $bus.router.push({ name: 'login' });
-    //   return Promise.reject(error);
-    // }
-
-    if (status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      const refreshToken = auth.getRefreshToken();
-      if (!refreshToken) {
+      if (status === 403) {
         return auth.forceLogout();
       }
 
-      return axios
-        .post(API.refreshToken, {
-          token: refreshToken
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            // console.log('new token', response.data);
-            auth.setToken(response.data);
+      if (status !== 401) {
+        return Promise.reject(error);
+      }
 
-            axios.defaults.headers.common[
-              'Authorization'
-            ] = `Bearer ${auth.getAccessToken()}`;
+      const originalRequest = error.config;
 
-            return axios(originalRequest);
-          }
-        })
-        .catch(() => {
-          console.error('Unable to refresh access token');
-          auth.forceLogout();
-        });
+      // NOTE: Stop going in an infinite loop
+      if (status === 401 && originalRequest.url === '/auth/refresh-token') {
+        $bus.router.push({ name: 'login' });
+        return Promise.reject(error);
+      }
+
+      if (status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
+        const refreshToken = auth.getRefreshToken();
+        if (!refreshToken) {
+          return auth.forceLogout();
+        }
+
+        return axios
+          .post(API.refreshToken, {
+            token: refreshToken
+          })
+          .then(({ status, data }) => {
+            if (status === 201) {
+              console.log('new token', data);
+              auth.setToken(data);
+
+              axios.defaults.headers.common[
+                'Authorization'
+              ] = `Bearer ${auth.getAccessToken()}`;
+
+              $bus.$emit('refresh-token');
+
+              return axios(originalRequest);
+            }
+          })
+          .catch(() => {
+            console.error('Unable to refresh access token');
+            auth.forceLogout();
+          });
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.error('Request Error');
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error('Unknown Error');
+      console.log(error.message);
     }
 
     return Promise.reject(error);

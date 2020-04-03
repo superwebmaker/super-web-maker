@@ -8,5 +8,6 @@ module.exports = {
   enable: true,
   signOptions: {
     expiresIn: 60
-  }
+  },
+  refreshTokenExpiresIn: 180
 };

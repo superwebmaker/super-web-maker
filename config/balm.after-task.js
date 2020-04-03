@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 
 const superWebMakerServer = () => {
   if (balm.config.env.isDev) {
-    const egg = spawn('./node_modules/.bin/egg-bin', ['dev']);
+    const egg = spawn('egg-bin', ['dev']);
 
     egg.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);

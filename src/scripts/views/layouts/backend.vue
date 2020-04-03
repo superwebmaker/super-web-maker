@@ -28,6 +28,14 @@ export default {
       this.routerError = true;
       this.routerErrorMessage = message;
     });
+
+    this.$bus.$on('refresh-token', () => {
+      this.$store.isAuthenticated = true;
+    });
+
+    this.$bus.$on('redirect', (url) => {
+      this.$router.push(url);
+    });
   }
 };
 </script>

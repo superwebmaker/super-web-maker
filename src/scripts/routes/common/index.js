@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 import bus from '@/store/bus';
 
 const getRouter = (routes) => {
@@ -8,6 +9,18 @@ const getRouter = (routes) => {
   const router = new VueRouter({
     mode: 'history',
     routes
+  });
+
+  router.beforeEach((to, from, next) => {
+    if (to.matched.some((route) => route.meta.requiresAuth)) {
+      if (store.isAuthenticated) {
+        next();
+      } else {
+        next({ name: 'login' });
+      }
+    } else {
+      next();
+    }
   });
 
   router.onReady(function () {

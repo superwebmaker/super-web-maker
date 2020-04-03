@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Admin Login</h2>
-    <p>User: {{ $store.user }}</p>
+    <p>User: {{ $store.isAuthenticated }}</p>
     <p v-if="$store.user">
       <ui-button @click="$store.logout">Logout</ui-button>
     </p>
@@ -30,6 +30,14 @@ export default {
     return {
       formData: {}
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(async (vm) => {
+      await vm.$store.me();
+      if (vm.$store.isAuthenticated) {
+        next('/');
+      }
+    });
   }
 };
 </script>
