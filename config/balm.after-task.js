@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 
-const beforeTask = () => {
-  const egg = spawn('egg-bin', ['dev']);
+const superWebMakerServer = () => {
+  const egg = spawn('./node_modules/.bin/egg-bin', ['dev']);
 
   egg.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
@@ -16,4 +16,4 @@ const beforeTask = () => {
   });
 };
 
-module.exports = beforeTask;
+module.exports = superWebMakerServer;
