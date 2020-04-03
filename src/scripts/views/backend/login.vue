@@ -33,6 +33,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(async (vm) => {
+      // NOTE: 检查权限
       await vm.$store.me();
       if (vm.$store.isAuthenticated) {
         next('/');
