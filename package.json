@@ -10,8 +10,7 @@
     "url": "http://elf-mouse.me"
   },
   "scripts": {
-    "server:dev": "egg-bin dev",
-    "client:dev": "gulp -S",
+    "dev": "gulp -S",
     "prod": "gulp -p -S",
     "start": "egg-scripts start --daemon --title=egg-server-super-web-maker",
     "stop": "egg-scripts stop --title=egg-server-super-web-maker",
