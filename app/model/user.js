@@ -1,18 +1,38 @@
 module.exports = (app) => {
-  const { INTEGER, BIGINT, STRING } = app.Sequelize;
+  const { INTEGER, BIGINT, STRING, DATE } = app.Sequelize;
 
   const User = app.model.define('users', {
-    id: { type: BIGINT.UNSIGNED, primaryKey: true, autoIncrement: true },
+    id: {
+      type: BIGINT.UNSIGNED,
+      primaryKey: true,
+      autoIncrement: true
+    },
     role_id: {
       type: INTEGER.UNSIGNED,
-      references: { model: 'roles', key: 'id' }
+      references: {
+        model: 'roles',
+        key: 'id'
+      }
     },
-    mobile: { type: STRING(15), allowNull: true },
-    email: { type: STRING(50), allowNull: false },
-    email_verified_at: { type: 'TIMESTAMP', allowNull: true },
-    password: { type: STRING, allowNull: false },
+    name: {
+      type: STRING,
+      allowNull: false
+    },
+    mobile: {
+      type: STRING(15),
+      allowNull: true
+    },
+    email: {
+      type: STRING(50),
+      allowNull: false
+    },
+    email_verified_at: DATE,
+    password: {
+      type: STRING,
+      allowNull: false
+    },
     remember_token: STRING(100),
-    last_sign_in_at: 'TIMESTAMP'
+    last_sign_in_at: DATE
   });
 
   User.associate = function () {
