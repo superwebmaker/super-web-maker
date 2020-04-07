@@ -2,20 +2,20 @@ const table = require('../table');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const now = Sequelize.fn('NOW');
+    const now = Sequelize.literal('NOW()');
 
     await queryInterface.bulkInsert(
       table.roles,
       [
         {
           id: 62,
-          name: 'admin',
+          name: 'ADMIN',
           created_at: now,
           updated_at: now
         },
         {
           id: 63,
-          name: 'user',
+          name: 'USER',
           created_at: now,
           updated_at: now
         }

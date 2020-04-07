@@ -2,7 +2,7 @@ const table = require('../table');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const now = Sequelize.fn('NOW');
+    const now = Sequelize.literal('NOW()');
 
     await queryInterface.bulkInsert(
       table.users,
