@@ -10,22 +10,13 @@ class AuthController extends Controller {
     if (user) {
       ctx.session.user = user;
 
-      const accessToken = app.jwt.sign(
-        {
-          username
-        },
-        app.config.jwt.secret
-      );
-
-      const refreshToken = app.jwt.sign(
-        {
-          username
-        },
-        app.config.jwt.secret,
-        {
-          expiresIn: app.config.jwt.refreshTokenExpiresIn
-        }
-      );
+      const payload = {
+        username
+      };
+      const accessToken = app.jwt.sign(payload, app.config.jwt.secret);
+      const refreshToken = app.jwt.sign(payload, app.config.jwt.secret, {
+        expiresIn: app.config.jwt.refreshTokenExpiresIn
+      });
 
       // TODO: save refreshToken
 
@@ -52,6 +43,8 @@ class AuthController extends Controller {
 
     const { token } = ctx.request.body;
 
+    // TODO: get the user's refresh tokens from DB
+
     const accessToken = app.jwt.refresh(token, app.config.jwt.secret);
     const refreshToken = app.jwt.refresh(token, app.config.jwt.secret, {
       expiresIn: app.config.jwt.refreshTokenExpiresIn
@@ -67,7 +60,11 @@ class AuthController extends Controller {
   }
 
   async me() {
-    return await this.ctx.session.user;
+    const { ctx, app } = this;
+
+    const user = ctx.session.user;
+
+    ctx.body = user;
   }
 }
 

@@ -11,10 +11,10 @@ export default {
   methods: {
     async me() {
       const accessToken = auth.getAccessToken();
+      console.log('me', accessToken);
       // NOTE: 检查权限
       if (!this.isAuthenticated && accessToken) {
         let user = await this.$http.get('/auth/me');
-        console.log('get user', user);
         if (user) {
           this.user = user;
           this.isAuthenticated = true;

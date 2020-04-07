@@ -52,7 +52,7 @@ module.exports = {
         delete payload.iat;
         delete payload.exp;
         delete payload.nbf;
-        delete payload.jti; //We are generating a new token, if you are using jwtid during signing, pass it in options
+        delete payload.jti; // We are generating a new token, if you are using jwtid during signing, pass it in options
 
         return this.generateToken(payload, secret, options, callback);
       };

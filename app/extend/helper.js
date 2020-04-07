@@ -4,8 +4,8 @@ exports.parseInt = (string) => {
   return parseInt(string) || 0;
 };
 
-// 获取 Refresh Token
-exports.getRefreshToken = (ctx) => {
+// 获取 Access Token
+exports.getAccessToken = (ctx) => {
   let token = ctx.request.header.authorization;
   return token && token.replace(/^Bearer\s/, '');
 };

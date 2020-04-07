@@ -67,6 +67,7 @@ axios.interceptors.response.use(
         originalRequest._retry = true;
 
         const refreshToken = auth.getRefreshToken();
+        console.log('refreshToken', refreshToken);
         if (!refreshToken) {
           return auth.forceLogout();
         }
@@ -75,14 +76,15 @@ axios.interceptors.response.use(
           .post(API.refreshToken, {
             token: refreshToken
           })
-          .then(({ status, data }) => {
+          .then((response) => {
+            const { status, data } = response;
+
             if (status === 201) {
-              console.log('new token', data);
               auth.setToken(data);
 
-              axios.defaults.headers.common[
-                'Authorization'
-              ] = `Bearer ${auth.getAccessToken()}`;
+              const newToken = `Bearer ${auth.getAccessToken()}`;
+              originalRequest.headers['Authorization'] = newToken;
+              axios.defaults.headers.common['Authorization'] = newToken;
 
               $bus.$emit('refresh-token');
 

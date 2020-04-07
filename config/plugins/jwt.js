@@ -7,7 +7,8 @@ module.exports = {
   secret: '123456',
   enable: true,
   signOptions: {
-    expiresIn: 60
+    expiresIn: 60 // '15min'
   },
-  refreshTokenExpiresIn: 180
+  refreshTokenExpiresIn: '10min' // '7d'
+  // ignore: '/api/auth/refresh-token'
 };
