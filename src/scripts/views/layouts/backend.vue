@@ -29,7 +29,7 @@ export default {
       this.routerErrorMessage = message;
     });
 
-    this.$bus.$on('refresh-token', () => {
+    this.$bus.$on('auth-token', () => {
       this.$store.isAuthenticated = true;
     });
 

@@ -26,6 +26,7 @@ class UserController extends Controller {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
     const body = ctx.request.body;
+    ctx.status = 204;
     ctx.body = await ctx.service.user.update({ id, updates: body });
   }
 

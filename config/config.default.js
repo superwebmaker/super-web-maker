@@ -39,8 +39,8 @@ module.exports = (appInfo) => {
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+    // 只对 /api 前缀的 url 路径生效
     // errorHandler: {
-    //   // 只对 /api 前缀的 url 路径生效
     //   match: '/api'
     // },
     // error: {

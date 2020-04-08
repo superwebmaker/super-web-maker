@@ -5,20 +5,34 @@ import auth from '@/store/auth';
 import { API_ENDPOINT } from '@/config';
 import API from '@/config/api';
 
-axios.defaults.baseURL = API_ENDPOINT;
-axios.defaults.headers['X-CSRF-TOKEN'] = Cookies.get('csrfToken');
+const statusCodes = {
+  OK: 200,
+  Created: 201,
+  NoContent: 204,
+  Unauthorized: 401,
+  Forbidden: 403
+};
+// For RESTful API
+const successStatusCode = [
+  statusCodes.OK,
+  statusCodes.Created,
+  statusCodes.NoContent
+];
 
 const errorHandler = ({ status, message }) => {
   $bus.alert(message);
 };
 
+axios.defaults.baseURL = API_ENDPOINT;
+axios.defaults.headers['X-CSRF-TOKEN'] = Cookies.get('csrfToken');
+
 axios.interceptors.request.use(
   (config) => {
-    const token = auth.getAccessToken();
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    const accessToken = auth.getAccessToken();
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
-    // config.headers['Content-Type'] = 'application/json';
+
     return config;
   },
   (error) => {
@@ -28,13 +42,20 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    const { status, data, message } = response;
+    const { status, data, message, config } = response;
 
-    if (status !== 200) {
-      errorHandler({ status, message });
-      return Promise.reject({ status, message });
-    } else {
+    if (successStatusCode.includes(status)) {
+      if (config.url === API.login) {
+        auth.setToken(data);
+
+        $bus.$emit('auth-token');
+      }
+
       return Promise.resolve(data);
+    } else {
+      errorHandler({ status, message });
+
+      return Promise.reject({ status, message });
     }
   },
   function (error) {
@@ -47,27 +68,30 @@ axios.interceptors.response.use(
 
       const { status } = error.response;
 
-      if (status === 403) {
+      if (status === statusCodes.Forbidden) {
         return auth.forceLogout();
       }
 
-      if (status !== 401) {
+      if (status !== statusCodes.Unauthorized) {
         return Promise.reject(error);
       }
 
       const originalRequest = error.config;
 
       // NOTE: Stop going in an infinite loop
-      if (status === 401 && originalRequest.url === '/auth/refresh-token') {
+      if (
+        status === statusCodes.Unauthorized &&
+        originalRequest.url === API.refreshToken
+      ) {
         $bus.router.push({ name: 'login' });
+
         return Promise.reject(error);
       }
 
-      if (status === 401 && !originalRequest._retry) {
+      if (status === statusCodes.Unauthorized && !originalRequest._retry) {
         originalRequest._retry = true;
 
         const refreshToken = auth.getRefreshToken();
-        console.log('refreshToken', refreshToken);
         if (!refreshToken) {
           return auth.forceLogout();
         }
@@ -76,20 +100,17 @@ axios.interceptors.response.use(
           .post(API.refreshToken, {
             token: refreshToken
           })
-          .then((response) => {
-            const { status, data } = response;
+          .then((data) => {
+            // NOTE: 已处理过 response，直接返回 data
+            auth.setToken(data);
 
-            if (status === 201) {
-              auth.setToken(data);
+            const newAccessToken = `Bearer ${auth.getAccessToken()}`;
+            originalRequest.headers['Authorization'] = newAccessToken;
+            axios.defaults.headers.common['Authorization'] = newAccessToken;
 
-              const newToken = `Bearer ${auth.getAccessToken()}`;
-              originalRequest.headers['Authorization'] = newToken;
-              axios.defaults.headers.common['Authorization'] = newToken;
+            $bus.$emit('auth-token');
 
-              $bus.$emit('refresh-token');
-
-              return axios(originalRequest);
-            }
+            return axios(originalRequest);
           })
           .catch(() => {
             console.error('Unable to refresh access token');

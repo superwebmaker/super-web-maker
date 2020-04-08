@@ -34,6 +34,14 @@ module.exports = {
         return this.generateToken(payload, secret, options, callback);
       };
 
+      // this[JWT].verify = (token, secret, options) => {
+      //   return jwt.verify(
+      //     token,
+      //     secret,
+      //     Object.assign({}, config.verifyOptions || {}, options)
+      //   );
+      // };
+
       this[JWT].refresh = (token, secret, options, callback) => {
         if (typeof secret !== 'string') {
           callback = options;

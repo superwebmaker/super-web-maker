@@ -9,6 +9,5 @@ module.exports = {
   signOptions: {
     expiresIn: 60 // '15min'
   },
-  refreshTokenExpiresIn: '10min' // '7d'
-  // ignore: '/api/auth/refresh-token'
+  refreshTokenExpiresIn: '3min' // '7d'
 };

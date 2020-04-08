@@ -60,7 +60,7 @@ class AuthController extends Controller {
   }
 
   async me() {
-    const { ctx, app } = this;
+    const { ctx } = this;
 
     const user = ctx.session.user;
 
