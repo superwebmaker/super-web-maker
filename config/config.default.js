@@ -50,7 +50,10 @@ module.exports = (appInfo) => {
     // },
     bcrypt,
     jwt,
-    cors
+    cors,
+    security: {
+      domainWhiteList: ['http://localhost:3000']
+    }
   };
 
   return {
