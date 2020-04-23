@@ -6,6 +6,21 @@ class HomeController extends Controller {
 
     await ctx.render('home');
   }
+
+  async wxlogin() {
+    const { ctx, app } = this;
+
+    const { sessionKey, encryptedData, iv } = ctx.request.body;
+    let data = await ctx.helper.getUserInfoByWx(app, {
+      sessionKey,
+      encryptedData,
+      iv
+    });
+
+    ctx.body = {
+      data
+    };
+  }
 }
 
 module.exports = HomeController;

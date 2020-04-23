@@ -4,6 +4,7 @@ const sequelize = require('./plugins/sequelize');
 const bcrypt = require('./plugins/bcrypt');
 const jwt = require('./plugins/jwt');
 const cors = require('./plugins/cors');
+const wx = require('./plugins/wx');
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -51,6 +52,7 @@ module.exports = (appInfo) => {
     bcrypt,
     jwt,
     cors,
+    wx,
     security: {
       domainWhiteList: ['http://localhost:3000']
     }

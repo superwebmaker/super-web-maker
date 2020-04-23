@@ -1,12 +1,16 @@
+const WXBizDataCrypt = require('./WXBizDataCrypt');
+
 exports.parseInt = (string) => {
   if (typeof string === 'number') return string;
   if (!string) return string;
+
   return parseInt(string) || 0;
 };
 
 // 获取 Access Token
 exports.getAccessToken = (ctx) => {
   let token = ctx.request.header.authorization;
+
   return token && token.replace(/^Bearer\s/, '');
 };
 
@@ -42,4 +46,11 @@ exports.error = (ctx, code, message) => {
     message: message
   };
   ctx.status = code;
+};
+
+exports.getUserInfoByWx = (app, { sessionKey, encryptedData, iv }) => {
+  let pc = new WXBizDataCrypt(app.config.wx.appId, sessionKey);
+  let data = pc.decryptData(encryptedData, iv);
+
+  return data;
 };

@@ -13,4 +13,7 @@ module.exports = (app) => {
   authApiRouter.post('/login', controller.backend.auth.login);
   authApiRouter.post('/logout', controller.backend.auth.logout);
   authApiRouter.post('/refresh-token', controller.backend.auth.refresh);
+
+  // Wxlogin
+  router.post('/wxlogin', controller.frontend.home.wxlogin);
 };
