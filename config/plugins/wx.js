@@ -1,3 +1,4 @@
 module.exports = {
-  appid: ''
+  AppID: '',
+  AppSecret: ''
 };

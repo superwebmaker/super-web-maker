@@ -1,3 +1,4 @@
+const axios = require('axios');
 const WXBizDataCrypt = require('./WXBizDataCrypt');
 
 exports.parseInt = (string) => {
@@ -47,6 +48,8 @@ exports.error = (ctx, code, message) => {
   };
   ctx.status = code;
 };
+
+exports.$http = axios;
 
 exports.getUserInfoByWx = (app, { sessionKey, encryptedData, iv }) => {
   let pc = new WXBizDataCrypt(app.config.wx.appId, sessionKey);
