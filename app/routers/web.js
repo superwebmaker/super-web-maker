@@ -15,5 +15,5 @@ module.exports = (app) => {
   authApiRouter.post('/refresh-token', controller.backend.auth.refresh);
 
   // Wxlogin
-  router.get('/api/wxlogin', controller.api.test.wxlogin);
+  router.post('/api/wxlogin', controller.api.test.wxlogin);
 };
