@@ -20,12 +20,12 @@ WXBizDataCrypt.prototype.decryptData = function (encryptedData, iv) {
     };
 
     let decrypted = CryptoJS.AES.decrypt(encrypted, key, options);
-    decoded = decrypted.toString(CryptoJS.enc.Utf8);
+    decoded = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
   } catch (err) {
     throw new Error('Illegal Data');
   }
 
-  if (!decoded || decoded.watermark.appid !== this.appId) {
+  if (decoded.watermark.appid !== this.appId) {
     throw new Error('Illegal Data');
   }
 
