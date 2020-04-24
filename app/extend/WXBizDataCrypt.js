@@ -9,17 +9,18 @@ WXBizDataCrypt.prototype.decryptData = function (encryptedData, iv) {
   let decoded;
 
   try {
-    const decrypted = CryptoJS.AES.decrypt(
-      CryptoJS.enc.Base64.parse(encryptedData),
-      CryptoJS.enc.Base64.parse(this.sessionKey),
-      {
-        iv: CryptoJS.enc.Base64.parse(iv),
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
-      }
+    let encrypted = CryptoJS.enc.Base64.stringify(
+      CryptoJS.enc.Base64.parse(encryptedData)
     );
+    let key = CryptoJS.enc.Base64.parse(this.sessionKey);
+    let options = {
+      iv: CryptoJS.enc.Base64.parse(iv),
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    };
 
-    decoded = CryptoJS.enc.Utf8.stringify(decrypted);
+    let decrypted = CryptoJS.AES.decrypt(encrypted, key, options);
+    decoded = decrypted.toString(CryptoJS.enc.Utf8);
   } catch (err) {
     throw new Error('Illegal Data');
   }

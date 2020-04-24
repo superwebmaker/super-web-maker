@@ -51,9 +51,8 @@ exports.error = (ctx, code, message) => {
 
 exports.$http = axios;
 
-exports.getUserInfoByWx = (app, { sessionKey, encryptedData, iv }) => {
-  let pc = new WXBizDataCrypt(app.config.wx.appId, sessionKey);
-  let data = pc.decryptData(encryptedData, iv);
+exports.getUserInfoByWx = (appId, { sessionKey, encryptedData, iv }) => {
+  const pc = new WXBizDataCrypt(appId, sessionKey);
 
-  return data;
+  return pc.decryptData(encryptedData, iv);
 };
