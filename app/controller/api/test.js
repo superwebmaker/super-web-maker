@@ -27,7 +27,7 @@ class TestController extends Controller {
     let { openid, session_key, errcode, errmsg } = response.data;
 
     if (!errcode) {
-      let data = await ctx.helper.getUserInfoByWx(appIdwxConfig.AppID, {
+      let data = await ctx.helper.getUserInfoByWx(wxConfig.AppID, {
         sessionKey: session_key,
         encryptedData,
         iv
