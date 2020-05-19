@@ -1,5 +1,5 @@
 import auth from '@/store/auth';
-import $bus from '@/store/bus';
+import bus from '@/store/bus';
 import API from '@/config/api';
 
 export default {
@@ -28,7 +28,7 @@ export default {
     },
     async login(formData) {
       await this.$http.post(API.login, formData);
-      $bus.$emit('redirect', '/');
+      bus.$emit('redirect', '/');
     },
     async logout() {
       await this.$http.post(API.logout);

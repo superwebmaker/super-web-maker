@@ -26,9 +26,9 @@ class AuthController extends Controller {
       };
     }
 
-    // if (ctx.status !== 200) {
-    //   ctx.throw(401, 'Unauthorized');
-    // }
+    if (ctx.status !== 200) {
+      ctx.throw('用户名或密码有误', 400);
+    }
   }
 
   async logout() {

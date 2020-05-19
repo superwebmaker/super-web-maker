@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import $bus from '@/store/bus';
+import bus from '@/store/bus';
 import auth from '@/store/auth';
 import { API_ENDPOINT } from '@/config';
 import API from '@/config/api';
@@ -19,8 +19,8 @@ const successStatusCode = [
   statusCodes.NoContent
 ];
 
-const errorHandler = ({ status, message }) => {
-  $bus.alert(message);
+const errorHandler = ({ message }) => {
+  bus.$emit('on-error', message);
 };
 
 axios.defaults.baseURL = API_ENDPOINT;
@@ -48,12 +48,12 @@ axios.interceptors.response.use(
       if (config.url === API.login) {
         auth.setToken(data);
 
-        $bus.$emit('auth-token');
+        bus.$emit('auth-token');
       }
 
       return Promise.resolve(data);
     } else {
-      errorHandler({ status, message });
+      errorHandler({ message });
 
       return Promise.reject({ status, message });
     }
@@ -73,6 +73,8 @@ axios.interceptors.response.use(
       }
 
       if (status !== statusCodes.Unauthorized) {
+        errorHandler(error.response.data); // NOTE: 处理各种业务逻辑错误
+
         return Promise.reject(error);
       }
 
@@ -83,7 +85,7 @@ axios.interceptors.response.use(
         status === statusCodes.Unauthorized &&
         originalRequest.url === API.refreshToken
       ) {
-        $bus.router.push({ name: 'login' });
+        bus.router.push({ name: 'login' });
 
         return Promise.reject(error);
       }
@@ -108,7 +110,7 @@ axios.interceptors.response.use(
             originalRequest.headers['Authorization'] = newAccessToken;
             axios.defaults.headers.common['Authorization'] = newAccessToken;
 
-            $bus.$emit('auth-token');
+            bus.$emit('auth-token');
 
             return axios(originalRequest);
           })

@@ -20,7 +20,8 @@
               ]"
             ></ui-menu>
           </ui-menu-anchor>
-          <span>{{ $store.user || 'Username' }}</span>
+          <span>{{ username }},</span>
+          <a @click="$store.logout">Logout</a>
         </template>
         <p v-else>Welcome!</p>
       </template>
@@ -42,6 +43,11 @@ export default {
       showUserMenu: false
     };
   },
+  computed: {
+    username() {
+      return this.$store.user ? this.$store.user.name : 'New User';
+    }
+  },
   async created() {
     this.$bus.$on('router-ready', () => {
       this.routerReady = true;
@@ -58,6 +64,12 @@ export default {
 
     this.$bus.$on('redirect', (url) => {
       this.$router.push(url);
+    });
+
+    this.$bus.$on('on-error', (error) => {
+      if (this.$route.name !== 'login') {
+        this.$bus.$alert(error);
+      }
     });
   }
 };
