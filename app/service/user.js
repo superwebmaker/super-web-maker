@@ -53,7 +53,9 @@ class UserService extends Service {
       ]
     });
 
-    user.logSignin();
+    if (user) {
+      user.logSignin();
+    }
 
     return user;
   }
