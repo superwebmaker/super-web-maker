@@ -31,10 +31,14 @@ export default {
       bus.$emit('redirect', '/');
     },
     async logout() {
-      await this.$http.post(API.logout);
+      let { url } = await this.$http.post(API.logout);
 
       this.isAuthenticated = false;
       this.user = null;
+
+      if (url) {
+        bus.$emit('redirect', url);
+      }
     }
   }
 };

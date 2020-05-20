@@ -41,7 +41,7 @@ class UserService extends Service {
   }
 
   async login({ username, password }) {
-    return await this.ctx.model.User.findOne({
+    const user = await this.ctx.model.User.findOne({
       where: {
         name: username,
         password
@@ -52,6 +52,10 @@ class UserService extends Service {
         }
       ]
     });
+
+    user.logSignin();
+
+    return user;
   }
 }
 

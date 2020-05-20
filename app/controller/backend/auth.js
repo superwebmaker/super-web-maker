@@ -18,7 +18,8 @@ class AuthController extends Controller {
         expiresIn: app.config.jwt.refreshTokenExpiresIn
       });
 
-      // TODO: save refreshToken
+      // Save refresh token
+      await ctx.service.authToken.saveByUser(refreshToken, user);
 
       ctx.body = {
         accessToken,
@@ -27,7 +28,7 @@ class AuthController extends Controller {
     }
 
     if (ctx.status !== 200) {
-      ctx.throw('用户名或密码有误', 400);
+      ctx.throw(400, 'Invalid username or password');
     }
   }
 
@@ -35,7 +36,10 @@ class AuthController extends Controller {
     const { ctx } = this;
 
     ctx.session = null;
-    await ctx.redirect('/admin');
+
+    ctx.body = {
+      url: '/login'
+    };
   }
 
   async refresh() {
@@ -43,20 +47,23 @@ class AuthController extends Controller {
 
     const { token } = ctx.request.body;
 
-    // TODO: get the user's refresh tokens from DB
+    // Check current refresh token from DB
+    const authToken = await ctx.service.authToken.load(token);
+    if (authToken) {
+      const accessToken = app.jwt.refresh(token, app.config.jwt.secret);
+      const refreshToken = app.jwt.refresh(token, app.config.jwt.secret, {
+        expiresIn: app.config.jwt.refreshTokenExpiresIn
+      });
 
-    const accessToken = app.jwt.refresh(token, app.config.jwt.secret);
-    const refreshToken = app.jwt.refresh(token, app.config.jwt.secret, {
-      expiresIn: app.config.jwt.refreshTokenExpiresIn
-    });
+      // Save new refresh token
+      await ctx.service.authToken.save(refreshToken, authToken.id);
 
-    // TODO: save refreshToken
-
-    ctx.status = 201;
-    ctx.body = {
-      accessToken,
-      refreshToken
-    };
+      ctx.status = 201;
+      ctx.body = {
+        accessToken,
+        refreshToken
+      };
+    }
   }
 
   async me() {

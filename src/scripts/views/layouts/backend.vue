@@ -18,10 +18,10 @@
                 'Help &amp; Feedback',
                 'Logout'
               ]"
+              @selected="onSelectUserMenu"
             ></ui-menu>
           </ui-menu-anchor>
-          <span>{{ username }},</span>
-          <a @click="$store.logout">Logout</a>
+          <span>Welcome,{{ username }}!</span>
         </template>
         <p v-else>Welcome!</p>
       </template>
@@ -71,6 +71,13 @@ export default {
         this.$bus.$alert(error);
       }
     });
+  },
+  methods: {
+    onSelectUserMenu({ label }) {
+      if (label === 'Logout') {
+        this.$store.logout();
+      }
+    }
   }
 };
 </script>
