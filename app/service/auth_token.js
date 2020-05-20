@@ -33,19 +33,23 @@ class AuthTokenService extends Service {
             }
           }
         )
-      : authToken.create({
-          token
-        });
+      : authToken.create(token); // { user_id, token }
   }
 
   async saveByUser(token, user) {
+    const userId = user.id;
     const authToken = await this.ctx.model.AuthToken.findOne({
       where: {
-        user_id: user.id
+        user_id: userId
       }
     });
 
-    return authToken ? this.save(token, authToken.id) : this.save(token);
+    return authToken
+      ? this.save(token, authToken.id)
+      : this.save({
+          user_id: userId,
+          token
+        });
   }
 }
 
