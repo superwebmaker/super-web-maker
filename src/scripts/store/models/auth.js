@@ -35,6 +35,7 @@ export default {
 
       this.isAuthenticated = false;
       this.user = null;
+      auth.clearToken();
 
       if (url) {
         bus.$emit('redirect', url);

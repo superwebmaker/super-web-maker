@@ -21,13 +21,13 @@ module.exports = {
         type: STRING,
         allowNull: false
       },
-      mobile: {
-        type: STRING(15),
-        allowNull: true
-      },
       email: {
         type: STRING(50),
         allowNull: false
+      },
+      mobile: {
+        type: STRING(15),
+        allowNull: true
       },
       email_verified_at: DATE,
       password: {
@@ -35,7 +35,7 @@ module.exports = {
         allowNull: false
       },
       remember_token: STRING(100),
-      last_sign_in_at: DATE,
+      last_sign_in_at: INTEGER,
       created_at: {
         type: DATE,
         allowNull: false,
@@ -47,6 +47,12 @@ module.exports = {
         defaultValue: Sequelize.literal('NOW()')
       },
       deleted_at: DATE
+    });
+
+    await queryInterface.addIndex(table.users, {
+      name: 'user_name_unique',
+      fields: ['name'],
+      unique: true
     });
 
     await queryInterface.addIndex(table.users, {

@@ -1,11 +1,21 @@
 const axios = require('axios');
 const WXBizDataCrypt = require('./WXBizDataCrypt');
 
-exports.parseInt = (string) => {
-  if (typeof string === 'number') return string;
-  if (!string) return string;
+exports.isMobile = (account) => {
+  return /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(
+    account
+  );
+};
 
-  return parseInt(string) || 0;
+exports.isEmail = (account) => {
+  return /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(account);
+};
+
+exports.parseInt = (str) => {
+  if (typeof str === 'number') return str;
+  if (!str) return str;
+
+  return parseInt(str) || 0;
 };
 
 // 获取 Access Token

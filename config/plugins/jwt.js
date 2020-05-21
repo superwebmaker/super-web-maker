@@ -7,7 +7,7 @@ module.exports = {
   secret: '123456',
   enable: true,
   signOptions: {
-    expiresIn: 60 // '15min'
+    expiresIn: '45min'
   },
-  refreshTokenExpiresIn: '3min' // '7d'
+  refreshTokenExpiresIn: '3d'
 };

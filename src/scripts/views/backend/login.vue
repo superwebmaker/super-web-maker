@@ -10,8 +10,8 @@
         alert.message
       }}</ui-alert>
       <ui-form-field block>
-        <ui-textfield v-model="formData.username" icon="account_box" required>
-          Username
+        <ui-textfield v-model="formData.account" icon="account_box" required>
+          Account
         </ui-textfield>
       </ui-form-field>
       <ui-form-field block>
@@ -35,8 +35,8 @@
 export default {
   name: 'adminLogin',
   validations: {
-    username: {
-      label: 'Username',
+    account: {
+      label: 'Account',
       validator: 'required'
     },
     password: {
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       formData: {
-        username: '',
+        account: '',
         password: ''
       },
       alert: {

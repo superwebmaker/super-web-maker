@@ -4,31 +4,39 @@ class AuthController extends Controller {
   async login() {
     const { ctx, app } = this;
 
-    const { username, password } = ctx.request.body;
-    const user = await ctx.service.user.login({ username, password });
+    const { account, password } = ctx.request.body;
+    const user = await ctx.service.user.login(account);
 
     if (user) {
-      ctx.session.user = user;
+      const matched = await ctx.compareHash(password, user.password);
 
-      const payload = {
-        username
-      };
-      const accessToken = app.jwt.sign(payload, app.config.jwt.secret);
-      const refreshToken = app.jwt.sign(payload, app.config.jwt.secret, {
-        expiresIn: app.config.jwt.refreshTokenExpiresIn
-      });
+      if (matched) {
+        const currentUser = user.get({ plain: true });
+        delete currentUser.password;
+        ctx.session.user = currentUser;
 
-      // Save refresh token
-      await ctx.service.authToken.saveByUser(refreshToken, user);
+        const payload = {
+          account
+        };
+        const accessToken = app.jwt.sign(payload, app.config.jwt.secret);
+        const refreshToken = app.jwt.sign(payload, app.config.jwt.secret, {
+          expiresIn: app.config.jwt.refreshTokenExpiresIn
+        });
 
-      ctx.body = {
-        accessToken,
-        refreshToken
-      };
+        // Save refresh token
+        await ctx.service.authToken.saveByUser(refreshToken, user);
+
+        ctx.body = {
+          accessToken,
+          refreshToken
+        };
+      } else {
+        ctx.throw(400, 'Invalid password');
+      }
     }
 
     if (ctx.status !== 200) {
-      ctx.throw(400, 'Invalid username or password');
+      ctx.throw(400, 'Invalid account or password');
     }
   }
 
@@ -69,9 +77,9 @@ class AuthController extends Controller {
   async me() {
     const { ctx } = this;
 
-    const user = ctx.session.user;
+    const currentUser = ctx.session.user;
 
-    ctx.body = user;
+    ctx.body = currentUser;
   }
 }
 

@@ -32,7 +32,7 @@ module.exports = (app) => {
       allowNull: false
     },
     remember_token: STRING(100),
-    last_sign_in_at: DATE
+    last_sign_in_at: INTEGER
   });
 
   User.associate = function () {
@@ -43,7 +43,9 @@ module.exports = (app) => {
 
   // don't use arraw function
   User.prototype.logSignin = async function () {
-    return await this.update({ last_sign_in_at: app.Sequelize.fn('NOW') });
+    return await this.update({
+      last_sign_in_at: Date.now()
+    });
   };
 
   return User;

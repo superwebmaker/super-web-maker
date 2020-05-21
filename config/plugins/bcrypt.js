@@ -4,5 +4,5 @@
  * @property {String} SOME_KEY - some description
  */
 module.exports = {
-  saltRounds: 10
+  saltRounds: 12
 };

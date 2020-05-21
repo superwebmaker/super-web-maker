@@ -40,15 +40,27 @@ class UserService extends Service {
     return user.destroy();
   }
 
-  async login({ username, password }) {
+  async login(account) {
+    const helper = this.ctx.helper;
+
+    // NOTE: `account` is unique field
+    const where = helper.isMobile(account)
+      ? {
+          mobile: account
+        }
+      : helper.isEmail(account)
+      ? { email: account }
+      : { name: account };
+
     const user = await this.ctx.model.User.findOne({
-      where: {
-        name: username,
-        password
+      where,
+      attributes: {
+        exclude: ['role_id']
       },
       include: [
         {
-          model: this.ctx.model.Role
+          model: this.ctx.model.Role,
+          attributes: ['name']
         }
       ]
     });

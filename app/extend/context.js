@@ -1,14 +1,20 @@
 const bcrypt = require('bcryptjs');
 
 module.exports = {
-  genHash(plainText) {
-    return bcrypt
-      .hash(plainText, this.app.config.bcrypt.saltRounds)
-      .catch((err) => this.app.logger.error('[egg-bcrypt]', err));
+  async genHash(plainText, rounds = this.app.config.bcrypt.saltRounds) {
+    const salt = await bcrypt
+      .genSalt(rounds)
+      .catch((err) => this.app.logger.error('[bcrypt]', err));
+
+    const hash = await bcrypt
+      .hash(plainText, salt)
+      .catch((err) => this.app.logger.error('[bcrypt]', err));
+
+    return hash;
   },
-  compare(plainText, hash) {
-    return bcrypt
+  async compareHash(plainText, hash) {
+    return await bcrypt
       .compare(plainText, hash)
-      .catch((err) => this.app.logger.error('[egg-bcrypt]', err));
+      .catch((err) => this.app.logger.error('[bcrypt]', err));
   }
 };
