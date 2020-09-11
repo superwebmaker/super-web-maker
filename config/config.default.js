@@ -54,7 +54,10 @@ module.exports = (appInfo) => {
     cors,
     wx,
     security: {
-      domainWhiteList: ['http://localhost:3000']
+      domainWhiteList: [] //'http://localhost:3000'
+      // csrf: {
+      //   enable: false
+      // }
     }
   };
 
