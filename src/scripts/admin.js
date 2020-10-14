@@ -1,25 +1,20 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from '@/views/layouts/backend';
 import router from '@/routes/backend';
-import $bus from '@/plugins/$bus';
-import $http from '@/plugins/$http';
-import $store from '@/plugins/$store';
-
+import http from '@/plugins/http';
 import BalmUI from 'balm-ui';
 import BalmUIPlus from 'balm-ui/dist/balm-ui-plus';
-import validatorRules from './config/validator-rules';
+import validatorRules from '@/config/validator-rules';
+import myStore from '@/store';
 
-Vue.config.productionTip = false;
-Vue.use($bus);
-Vue.use($http);
-Vue.use($store);
+const app = createApp(App);
 
-Vue.use(BalmUI);
-Vue.use(BalmUIPlus, { validator: validatorRules });
-
-new Vue({
-  el: '#app',
-  components: { App },
-  template: '<app/>',
-  router
+app.use(router);
+app.use(http);
+app.use(BalmUI, {
+  $store: myStore,
+  $validator: validatorRules
 });
+app.use(BalmUIPlus);
+
+app.mount('#app');

@@ -1,22 +1,16 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from '@/views/layouts/frontend';
 import router from '@/routes/frontend';
-import $bus from '@/plugins/$bus';
-import $http from '@/plugins/$http';
-import $store from '@/plugins/$store';
-
+import http from '@/plugins/http';
 import BalmUI from 'balm-ui';
+import myStore from '@/store';
 
-Vue.config.productionTip = false;
-Vue.use($bus);
-Vue.use($http);
-Vue.use($store);
+const app = createApp(App);
 
-Vue.use(BalmUI);
-
-new Vue({
-  el: '#app',
-  components: { App },
-  template: '<app/>',
-  router
+app.use(router);
+app.use(http);
+app.use(BalmUI, {
+  $store: myStore
 });
+
+app.mount('#app');

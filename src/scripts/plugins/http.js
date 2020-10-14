@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import bus from '@/store/bus';
+import { useBus } from 'balm-ui';
 import auth from '@/store/auth';
 import { API_ENDPOINT } from '@/config';
 import API from '@/config/api';
+
+const bus = useBus();
 
 const statusCodes = {
   OK: 200,
@@ -135,8 +137,12 @@ axios.interceptors.response.use(
   }
 );
 
+const useHttp = () => axios;
+
 export default {
-  install(Vue) {
-    Vue.prototype.$http = axios;
+  install(app) {
+    app.config.globalProperties.$http = axios;
+    app.provide('http', axios);
   }
 };
+export { useHttp };

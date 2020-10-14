@@ -1,45 +1,58 @@
+import { reactive, toRefs } from 'vue';
+import { useBus } from 'balm-ui';
 import auth from '@/store/auth';
-import bus from '@/store/bus';
 import API from '@/config/api';
+import useHttp from '@/plugins/http';
 
-export default {
-  data() {
-    return {
-      isAuthenticated: false,
-      user: null
-    };
-  },
-  methods: {
-    async me() {
-      const hasAccessToken = !!auth.getAccessToken();
+const bus = useBus();
+const $http = useHttp();
 
-      // NOTE: 检查权限
-      if (hasAccessToken) {
-        if (!this.user) {
-          let user = await this.$http.get('/auth/me');
-          if (user) {
-            this.user = user;
-            this.isAuthenticated = true;
-          }
-        }
-      } else {
-        console.info('unlogin');
-      }
-    },
-    async login(formData) {
-      await this.$http.post(API.login, formData);
-      bus.$emit('redirect', '/');
-    },
-    async logout() {
-      let { url } = await this.$http.post(API.logout);
+const state = reactive({
+  isAuthenticated: false,
+  user: null
+});
 
-      this.isAuthenticated = false;
-      this.user = null;
-      auth.clearToken();
+async function me() {
+  const hasAccessToken = !!auth.getAccessToken();
 
-      if (url) {
-        bus.$emit('redirect', url);
+  // NOTE: 检查权限
+  if (hasAccessToken) {
+    if (!state.user) {
+      let user = await $http.get('/auth/me');
+      if (user) {
+        state.user = user;
+        state.isAuthenticated = true;
       }
     }
+  } else {
+    console.info('unlogin');
   }
+}
+
+async function login(formData) {
+  await $http.post(API.login, formData);
+  bus.$emit('redirect', '/');
+}
+
+async function logout() {
+  let { url } = await $http.post(API.logout);
+
+  state.isAuthenticated = false;
+  state.user = null;
+  auth.clearToken();
+
+  if (url) {
+    bus.$emit('redirect', url);
+  }
+}
+
+const useAuthStore = () => {
+  return {
+    ...toRefs(state),
+    me,
+    login,
+    logout
+  };
 };
+
+export default useAuthStore;
