@@ -1,12 +1,7 @@
 import getRouter from '@/routes/common';
-import NotFound from '@/views/not-found';
+import otherRoutes from '@/routes/common/other';
 import baseRoutes from './base';
 
-let routes = [].concat(baseRoutes, [
-  {
-    path: '*',
-    component: NotFound
-  }
-]);
+const routes = [].concat(baseRoutes, otherRoutes);
 
 export default getRouter(routes);

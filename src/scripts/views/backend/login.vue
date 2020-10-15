@@ -1,20 +1,24 @@
 <template>
   <div class="page--login">
     <h2>Admin Login</h2>
-    <p v-if="$store.user">
-      <ui-button @click="$store.logout">Logout</ui-button>
-    </p>
-    <fieldset v-else>
-      <legend>Admin Login</legend>
+
+    <div v-if="store.user">
+      <p>{{ store.user }}</p>
+      <ui-button @click="store.logout">Logout</ui-button>
+    </div>
+    <ui-form v-else>
+      <legend>Login Form</legend>
+
       <ui-alert v-if="alert.message" :state="alert.state">{{
         alert.message
       }}</ui-alert>
-      <ui-form-field block>
+
+      <ui-form-field>
         <ui-textfield v-model="formData.account" icon="account_box" required>
           Account
         </ui-textfield>
       </ui-form-field>
-      <ui-form-field block>
+      <ui-form-field>
         <ui-textfield
           v-model="formData.password"
           inputType="password"
@@ -24,67 +28,72 @@
           Password
         </ui-textfield>
       </ui-form-field>
-      <ui-form-field block>
+
+      <ui-form-field>
         <ui-button raised @click="login">Login</ui-button>
       </ui-form-field>
-    </fieldset>
+    </ui-form>
   </div>
 </template>
 
 <script>
+import { reactive, toRefs } from 'vue';
+import { useBus, useStore, useValidator } from 'balm-ui';
+
+const validations = {
+  account: {
+    label: 'Account',
+    validator: 'required'
+  },
+  password: {
+    label: 'Password',
+    validator: 'required'
+  }
+};
+
+const state = reactive({
+  formData: {
+    account: '',
+    password: ''
+  },
+  alert: {
+    state: 'warning',
+    message: ''
+  }
+});
+
 export default {
-  name: 'adminLogin',
-  validations: {
-    account: {
-      label: 'Account',
-      validator: 'required'
-    },
-    password: {
-      label: 'Password',
-      validator: 'required'
-    }
-  },
-  data() {
-    return {
-      formData: {
-        account: '',
-        password: ''
-      },
-      alert: {
-        state: 'warning',
-        message: ''
-      }
-    };
-  },
-  beforeRouteEnter(to, from, next) {
-    next(async (vm) => {
-      // NOTE: 检查权限
-      await vm.$store.me();
-      if (vm.$store.isAuthenticated) {
-        next('/');
-      }
-    });
-  },
-  created() {
-    this.$bus.$on('on-error', (message) => {
-      this.alert = {
+  name: 'AdminLogin',
+  setup() {
+    const bus = useBus();
+    const store = useStore();
+    const balmUI = useValidator();
+
+    bus.on('on-error', (message) => {
+      state.alert = {
         state: 'error',
         message
       };
     });
+
+    return {
+      balmUI,
+      store,
+      ...toRefs(state)
+    };
   },
   methods: {
     login() {
-      let result = this.$validate(this.formData);
+      let result = this.balmUI.validate(state.formData);
       let { valid, message } = result;
 
-      this.alert = {
+      state.alert = {
         state: 'warning',
         message
       };
 
       if (valid) {
-        this.$store.login(this.formData);
+        this.store.login(state.formData);
       }
     }
   }

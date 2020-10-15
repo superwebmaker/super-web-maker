@@ -8,8 +8,11 @@ let baseRoutes = [
   {
     path: '/',
     component: AdminLayout,
-    redirect: { name: 'admin.index' },
     children: [
+      {
+        path: '',
+        redirect: 'dashboard'
+      },
       {
         path: 'dashboard',
         name: 'admin.index',

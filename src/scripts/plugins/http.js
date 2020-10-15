@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useBus } from 'balm-ui';
-import auth from '@/store/auth';
+import { useAuth } from '@/plugins/auth';
 import { API_ENDPOINT } from '@/config';
 import API from '@/config/api';
 
 const bus = useBus();
+const auth = useAuth();
 
 const statusCodes = {
   OK: 200,
@@ -22,7 +23,7 @@ const successStatusCode = [
 ];
 
 const errorHandler = ({ message }) => {
-  bus.$emit('on-error', message);
+  bus.emit('on-error', message);
 };
 
 axios.defaults.baseURL = API_ENDPOINT;
@@ -50,7 +51,7 @@ axios.interceptors.response.use(
       if (config.url === API.login) {
         auth.setToken(data);
 
-        bus.$emit('auth-token');
+        bus.emit('auth-token');
       }
 
       return Promise.resolve(data);
@@ -87,7 +88,7 @@ axios.interceptors.response.use(
         status === statusCodes.Unauthorized &&
         originalRequest.url === API.refreshToken
       ) {
-        bus.router.push({ name: 'login' });
+        bus.router.push({ name: 'login' }); // TODO
 
         return Promise.reject(error);
       }
@@ -112,7 +113,7 @@ axios.interceptors.response.use(
             originalRequest.headers['Authorization'] = newAccessToken;
             axios.defaults.headers.common['Authorization'] = newAccessToken;
 
-            bus.$emit('auth-token');
+            bus.emit('auth-token');
 
             return axios(originalRequest);
           })

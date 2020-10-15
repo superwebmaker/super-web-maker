@@ -11,23 +11,33 @@
 </template>
 
 <script>
+import { reactive, toRefs, onBeforeMount } from 'vue';
+import { useBus } from 'balm-ui';
+
+const state = reactive({
+  routerReady: false,
+  routerError: false
+});
+
 export default {
-  name: 'app',
-  data() {
-    return {
-      routerReady: false,
-      routerError: false
-    };
-  },
-  created() {
-    this.$bus.$on('router-ready', () => {
-      this.routerReady = true;
+  name: 'WebApp',
+  setup() {
+    const bus = useBus();
+
+    onBeforeMount(() => {
+      bus.on('router-ready', () => {
+        state.routerReady = true;
+      });
+
+      bus.on('router-error', (message) => {
+        state.routerError = true;
+        state.routerErrorMessage = message;
+      });
     });
 
-    this.$bus.$on('router-error', ({ message }) => {
-      this.routerError = true;
-      this.routerErrorMessage = message;
-    });
+    return {
+      ...toRefs(state)
+    };
   }
 };
 </script>

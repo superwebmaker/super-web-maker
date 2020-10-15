@@ -1,16 +1,24 @@
 <template>
   <div>
     <h2>Admin Index</h2>
-    <p>User: {{ $store.user }}</p>
+    <p>User: {{ store.user }}</p>
   </div>
 </template>
 
 <script>
+import { useStore } from 'balm-ui';
+
 export default {
-  name: 'adminIndex',
-  async mounted() {
+  name: 'AdminIndex',
+  setup() {
+    const store = useStore();
+
     console.log('hello');
-    await this.$store.me();
+    store.me();
+
+    return {
+      store
+    };
   }
 };
 </script>

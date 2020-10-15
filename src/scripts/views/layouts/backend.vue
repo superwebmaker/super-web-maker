@@ -3,9 +3,9 @@
     <ui-top-app-bar contentSelector="#content-main" :navIcon="false">
       Super Web Maker
       <template #toolbar>
-        <template v-if="$store.isAuthenticated">
+        <template v-if="store.isAuthenticated">
           <ui-menu-anchor>
-            <ui-icon @click="$balmUI.onOpen('showUserMenu')"
+            <ui-icon @click="balmUI.onOpen('showUserMenu')"
               >account_circle</ui-icon
             >
             <ui-menu
@@ -34,48 +34,67 @@
 </template>
 
 <script>
+import { reactive, toRefs, computed, onBeforeMount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useEvent, useBus, useStore } from 'balm-ui';
+import { useAlert } from 'balm-ui/plugins/alert';
+
+const state = reactive({
+  routerReady: false,
+  routerError: false,
+  showUserMenu: false
+});
+
 export default {
-  name: 'app',
-  data() {
+  name: 'AdminApp',
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const balmUI = useEvent();
+    const bus = useBus();
+    const store = useStore();
+    const $alert = useAlert();
+
+    const username = computed(() =>
+      store.user ? store.user.name : 'New User'
+    );
+
+    onBeforeMount(() => {
+      bus.on('router-ready', () => {
+        state.routerReady = true;
+      });
+
+      bus.on('router-error', ({ message }) => {
+        state.routerError = true;
+        state.routerErrorMessage = message;
+      });
+
+      bus.on('auth-token', () => {
+        store.isAuthenticated = true;
+      });
+
+      bus.on('redirect', (url) => {
+        router.push(url);
+      });
+
+      bus.on('on-error', (error) => {
+        if (route.name !== 'login') {
+          $alert(error);
+        }
+      });
+    });
+
     return {
-      routerReady: false,
-      routerError: false,
-      showUserMenu: false
+      balmUI,
+      store,
+      ...toRefs(state),
+      username
     };
-  },
-  computed: {
-    username() {
-      return this.$store.user ? this.$store.user.name : 'New User';
-    }
-  },
-  async created() {
-    this.$bus.$on('router-ready', () => {
-      this.routerReady = true;
-    });
-
-    this.$bus.$on('router-error', ({ message }) => {
-      this.routerError = true;
-      this.routerErrorMessage = message;
-    });
-
-    this.$bus.$on('auth-token', () => {
-      this.$store.isAuthenticated = true;
-    });
-
-    this.$bus.$on('redirect', (url) => {
-      this.$router.push(url);
-    });
-
-    this.$bus.$on('on-error', (error) => {
-      if (this.$route.name !== 'login') {
-        this.$bus.$alert(error);
-      }
-    });
   },
   methods: {
     onSelectUserMenu({ label }) {
       if (label === 'Logout') {
-        this.$store.logout();
+        this.store.logout();
       }
     }
   }

@@ -1,11 +1,12 @@
 import { reactive, toRefs } from 'vue';
 import { useBus } from 'balm-ui';
-import auth from '@/store/auth';
 import API from '@/config/api';
-import useHttp from '@/plugins/http';
+import { useHttp } from '@/plugins/http';
+import { useAuth } from '@/plugins/auth';
 
 const bus = useBus();
 const $http = useHttp();
+const auth = useAuth();
 
 const state = reactive({
   isAuthenticated: false,
@@ -31,7 +32,7 @@ async function me() {
 
 async function login(formData) {
   await $http.post(API.login, formData);
-  bus.$emit('redirect', '/');
+  bus.emit('redirect', '/');
 }
 
 async function logout() {
@@ -42,7 +43,7 @@ async function logout() {
   auth.clearToken();
 
   if (url) {
-    bus.$emit('redirect', url);
+    bus.emit('redirect', url);
   }
 }
 

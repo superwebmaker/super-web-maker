@@ -6,13 +6,9 @@ const setToken = ({ accessToken, refreshToken }) => {
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
 };
 
-const getAccessToken = () => {
-  return localStorage.getItem(ACCESS_TOKEN);
-};
+const getAccessToken = () => localStorage.getItem(ACCESS_TOKEN);
 
-const getRefreshToken = () => {
-  return localStorage.getItem(REFRESH_TOKEN);
-};
+const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);
 
 const clearToken = () => {
   localStorage.removeItem(ACCESS_TOKEN);
@@ -25,10 +21,20 @@ const forceLogout = () => {
   window.location = '/login';
 };
 
-export default {
+const auth = {
   setToken,
   getAccessToken,
   getRefreshToken,
   clearToken,
   forceLogout
 };
+
+const useAuth = () => auth;
+
+export default {
+  install(app) {
+    app.config.globalProperties.$auth = auth;
+    app.provide('auth', auth);
+  }
+};
+export { useAuth };
