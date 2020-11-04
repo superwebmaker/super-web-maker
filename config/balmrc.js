@@ -23,8 +23,8 @@ module.exports = {
   scripts: {
     entry: {
       lib: ['vue', 'vue-router', 'axios'],
-      admin: './src/scripts/admin.js',
-      app: './src/scripts/app.js'
+      'swm-admin': './src/scripts/backend/index.js',
+      'swm-app': './src/scripts/frontend/index.js'
     },
     loaders: [
       {
@@ -42,7 +42,8 @@ module.exports = {
     alias: Object.assign(
       {
         '@': path.resolve(__dirname, '../src/scripts'),
-        vue$: 'vue/dist/vue.esm-bundler.js'
+        vue$: 'vue/dist/vue.esm-bundler.js',
+        'balm-ui-plus$': 'balm-ui/dist/balm-ui-plus.js'
       },
       // fix(vue@3.0.1+): __VUE_HMR_RUNTIME__ is not defined in development
       {

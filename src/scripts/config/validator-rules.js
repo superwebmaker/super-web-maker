@@ -1,4 +1,4 @@
-import { types } from 'balm-ui/dist/balm-ui-plus';
+import { types } from 'balm-ui';
 
 export default {
   required: {

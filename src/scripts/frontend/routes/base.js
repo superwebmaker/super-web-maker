@@ -1,4 +1,4 @@
-import Home from '@/views/frontend/home';
+import Home from '@/frontend/views/home';
 
 let baseRoutes = [
   {

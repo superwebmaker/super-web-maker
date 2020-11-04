@@ -1,8 +1,7 @@
-import AdminLayout from '@/views/layouts/blank';
-
-import AdminLogin from '@/views/backend/login';
-import AdminIndex from '@/views/backend/admin';
-import AdminTest from '@/views/backend/test';
+import AdminLayout from '@/common/views/layouts/blank';
+import AdminLogin from '@/backend/views/login';
+import AdminIndex from '@/backend/views/admin';
+import AdminTest from '@/backend/views/test';
 
 let baseRoutes = [
   {

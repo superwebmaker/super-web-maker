@@ -37,7 +37,7 @@
 import { reactive, toRefs, computed, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useEvent, useBus, useStore } from 'balm-ui';
-import { useAlert } from 'balm-ui/plugins/alert';
+import { useAlert } from 'balm-ui-plus';
 
 const state = reactive({
   routerReady: false,
@@ -92,8 +92,8 @@ export default {
     };
   },
   methods: {
-    onSelectUserMenu({ label }) {
-      if (label === 'Logout') {
+    onSelectUserMenu({ text }) {
+      if (text === 'Logout') {
         this.store.logout();
       }
     }

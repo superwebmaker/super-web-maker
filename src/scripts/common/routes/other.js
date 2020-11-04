@@ -1,4 +1,4 @@
-import NotFound from '@/views/not-found';
+import NotFound from '@/common/views/not-found';
 
 let otherRoutes = [
   {

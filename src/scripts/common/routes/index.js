@@ -1,9 +1,10 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { initRouter } from './middleware';
 
-const getRouter = (routes) => {
-  const history = createWebHashHistory();
+const getRouter = (routes, base = '/') => {
+  const history = createWebHistory();
   const router = createRouter({
+    base,
     history,
     routes
   });
