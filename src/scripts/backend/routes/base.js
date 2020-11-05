@@ -1,7 +1,8 @@
 import AdminLayout from '@/common/views/layouts/blank';
-import AdminLogin from '@/backend/views/login';
-import AdminIndex from '@/backend/views/admin';
-import AdminTest from '@/backend/views/test';
+import Login from '@/backend/views/login';
+import Dashboard from '@/backend/views/dashboard';
+import Test from '@/backend/views/test';
+import authRoutes from './auth';
 
 let baseRoutes = [
   {
@@ -15,21 +16,21 @@ let baseRoutes = [
       {
         path: 'dashboard',
         name: 'admin.index',
-        component: AdminIndex
+        component: Dashboard
       },
       {
         path: 'test',
         name: 'admin.test',
-        component: AdminTest
+        component: Test
       }
     ],
     meta: { requiresAuth: true }
   },
   {
     path: '/login',
-    name: 'login',
-    component: AdminLogin
+    name: 'admin.login',
+    component: Login
   }
 ];
 
-export default baseRoutes;
+export default [].concat(baseRoutes, authRoutes);

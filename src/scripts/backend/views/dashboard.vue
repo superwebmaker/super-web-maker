@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page--dashboard">
     <h2>Admin Index</h2>
     <p>User: {{ store.user }}</p>
   </div>
@@ -9,7 +9,7 @@
 import { useStore } from 'balm-ui';
 
 export default {
-  name: 'AdminIndex',
+  name: 'Dashboard',
   setup() {
     const store = useStore();
 

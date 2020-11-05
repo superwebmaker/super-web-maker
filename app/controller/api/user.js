@@ -5,7 +5,7 @@ class UserController extends Controller {
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
-      offset: ctx.helper.parseInt(ctx.query.offset)
+      offset: ctx.helper.parseInt(ctx.query.offset) // TODO: use `id` > xxx
     };
     ctx.body = await ctx.service.user.list(query);
   }

@@ -14,7 +14,12 @@
       }}</ui-alert>
 
       <ui-form-field>
-        <ui-textfield v-model="formData.account" icon="account_box" required>
+        <ui-textfield
+          v-model="formData.account"
+          icon="account_box"
+          required
+          @enter="login"
+        >
           Account
         </ui-textfield>
       </ui-form-field>
@@ -24,6 +29,7 @@
           inputType="password"
           icon="lock"
           required
+          @enter="login"
         >
           Password
         </ui-textfield>
