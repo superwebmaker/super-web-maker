@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useRouter } from 'vue-router';
 import { useBus } from 'balm-ui';
 import { useAuth } from '@/plugins/auth';
 import { API_ENDPOINT } from '@/config';
@@ -88,7 +89,8 @@ axios.interceptors.response.use(
         status === statusCodes.Unauthorized &&
         originalRequest.url === API.refreshToken
       ) {
-        bus.router.push({ name: 'login' }); // TODO
+        const router = useRouter();
+        router.push({ name: 'login' });
 
         return Promise.reject(error);
       }
