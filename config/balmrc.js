@@ -1,8 +1,15 @@
 const path = require('path');
 const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
+const serve = require('./server');
 
-module.exports = {
+const workspace = path.join(__dirname, '..');
+
+function resolve(dir) {
+  return path.join(workspace, dir);
+}
+
+module.exports = (balm) => ({
   // inFrontend: false,
   server: {
     proxyConfig: {
@@ -14,6 +21,11 @@ module.exports = {
     },
     historyOptions: {
       index: '/admin.html'
+    },
+    next() {
+      if (balm.config.env.isDev) {
+        serve();
+      }
     }
   },
   styles: {
@@ -39,24 +51,14 @@ module.exports = {
         __VUE_PROD_DEVTOOLS__: false
       })
     ],
-    alias: Object.assign(
-      {
-        '@': path.resolve(__dirname, '../src/scripts'),
-        vue$: 'vue/dist/vue.esm-bundler.js',
-        'balm-ui-plus$': 'balm-ui/dist/balm-ui-plus.js'
-      },
-      // fix(vue@3.0.1+): __VUE_HMR_RUNTIME__ is not defined in development
-      {
-        '@vue/runtime-core':
-          '@vue/runtime-core/dist/runtime-core.esm-bundler.js'
-      }
-    )
+    alias: {
+      '@': resolve('src/scripts'),
+      vue$: 'vue/dist/vue.esm-bundler.js',
+      'balm-ui-plus$': 'balm-ui/dist/balm-ui-plus.js'
+    }
   },
   assets: {
     mainDir: 'app/public'
     // cache: true
-  },
-  logs: {
-    level: 2
   }
-};
+});

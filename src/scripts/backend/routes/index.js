@@ -4,4 +4,4 @@ import baseRoutes from './base';
 
 const routes = [].concat(baseRoutes, otherRoutes);
 
-export default getRouter(routes, '/admin/');
+export default getRouter(routes, '/admin/', true);

@@ -1,5 +1,4 @@
-const config = require('./config/balmrc');
-const getAfterTask = require('./config/balm.after-task');
+const getConfig = require('./config/balmrc');
 const publish = require('./config/balm.publish');
 
 const api = (mix) => {
@@ -8,8 +7,7 @@ const api = (mix) => {
 
 module.exports = (balm) => {
   return {
-    config,
-    api,
-    afterTask: getAfterTask(balm)
+    config: getConfig(balm),
+    api
   };
 };

@@ -5,9 +5,13 @@
       <template #toolbar>
         <template v-if="store.isAuthenticated">
           <ui-menu-anchor>
-            <ui-icon @click="balmUI.onOpen('showUserMenu')"
-              >account_circle</ui-icon
+            <ui-fab
+              extended
+              icon="account_circle"
+              @click="balmUI.onOpen('showUserMenu')"
             >
+              <span>Welcome, {{ username }}!</span>
+            </ui-fab>
             <ui-menu
               v-model="showUserMenu"
               :items="[
@@ -21,7 +25,6 @@
               @selected="onSelectUserMenu"
             ></ui-menu>
           </ui-menu-anchor>
-          <span>Welcome,{{ username }}!</span>
         </template>
         <p v-else>Welcome!</p>
       </template>
