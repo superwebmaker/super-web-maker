@@ -14,14 +14,7 @@
             </ui-fab>
             <ui-menu
               v-model="showUserMenu"
-              :items="[
-                'Back',
-                'Forward',
-                'Reload',
-                '-',
-                'Help &amp; Feedback',
-                'Logout'
-              ]"
+              :items="['Logout']"
               @selected="onSelectUserMenu"
             ></ui-menu>
           </ui-menu-anchor>
