@@ -25,11 +25,6 @@ export default {
       component: User
     },
     {
-      path: 'user/:id/edit',
-      name: 'admin.user.edit',
-      component: User
-    },
-    {
       path: 'roles',
       name: 'admin.roles',
       component: Roles

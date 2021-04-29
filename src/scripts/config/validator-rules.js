@@ -7,6 +7,12 @@ export default {
     },
     message: '%s is required'
   },
+  mobile: {
+    validate(value) {
+      return /^1[0-9]\d{9}$/.test(value);
+    },
+    message: 'Invalid phone number'
+  },
   password: {
     validate(value) {
       return /^\w+$/.test(value);

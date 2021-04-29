@@ -5,7 +5,9 @@
     <div class="table-view-conditions"></div>
 
     <div class="table-view-topbar">
-      <ui-button icon="add" raised>Add</ui-button>
+      <ui-button icon="add" raised @click="router.push({ name: 'admin.user' })">
+        Add
+      </ui-button>
     </div>
 
     <ui-table
@@ -20,9 +22,6 @@
     >
       <template #actions="{ data }">
         <router-link :to="{ name: 'admin.user', params: { id: data.id } }">
-          <ui-icon>description</ui-icon>
-        </router-link>
-        <router-link :to="{ name: 'admin.user.edit', params: { id: data.id } }">
           <ui-icon>edit</ui-icon>
         </router-link>
         <ui-icon @click="removeUser(data)">delete</ui-icon>
@@ -40,6 +39,7 @@
 
 <script>
 import { reactive, toRefs, onBeforeMount } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'balm-ui';
 
 const thead = [
@@ -75,6 +75,7 @@ const state = reactive({
 export default {
   name: 'Users',
   setup() {
+    const router = useRouter();
     const store = useStore();
 
     onBeforeMount(async () => {
@@ -86,7 +87,8 @@ export default {
     return {
       ...toRefs(state),
       thead,
-      tbody
+      tbody,
+      router
     };
   },
   methods: {
