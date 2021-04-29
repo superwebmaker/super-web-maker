@@ -16,37 +16,37 @@ export default {
     },
     {
       path: 'users',
-      name: 'auth.users',
+      name: 'admin.users',
       component: Users
     },
     {
       path: 'user/:id?',
-      name: 'auth.user',
+      name: 'admin.user',
       component: User
     },
     {
       path: 'user/:id/edit',
-      name: 'auth.user.edit',
+      name: 'admin.user.edit',
       component: User
     },
     {
       path: 'roles',
-      name: 'auth.roles',
+      name: 'admin.roles',
       component: Roles
     },
     {
       path: 'permissions',
-      name: 'auth.permissions',
+      name: 'admin.permissions',
       component: Permissions
     },
     {
       path: 'menu',
-      name: 'auth.menu',
+      name: 'admin.menu',
       component: Menu
     },
     {
       path: 'logs',
-      name: 'auth.logs',
+      name: 'admin.logs',
       component: Logs
     }
   ],

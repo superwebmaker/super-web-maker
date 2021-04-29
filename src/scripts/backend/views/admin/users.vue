@@ -1,8 +1,16 @@
 <template>
-  <div class="page--user-list">
+  <div class="page--users">
     <h2>Users</h2>
+
+    <div class="table-view-conditions"></div>
+
+    <div class="table-view-topbar">
+      <ui-button icon="add" raised>Add</ui-button>
+    </div>
+
     <ui-table
       v-model="selectedRows"
+      class="table-view-content"
       fullwidth
       :data="users"
       :thead="thead"
@@ -11,14 +19,21 @@
       selected-key="id"
     >
       <template #actions="{ data }">
-        <router-link :to="{ name: 'auth.user', params: { id: data.id } }"
-          ><ui-icon>description</ui-icon></router-link
-        >
-        <router-link :to="{ name: 'auth.user.edit', params: { id: data.id } }"
-          ><ui-icon>edit</ui-icon></router-link
-        >
+        <router-link :to="{ name: 'admin.user', params: { id: data.id } }">
+          <ui-icon>description</ui-icon>
+        </router-link>
+        <router-link :to="{ name: 'admin.user.edit', params: { id: data.id } }">
+          <ui-icon>edit</ui-icon>
+        </router-link>
         <ui-icon @click="removeUser(data)">delete</ui-icon>
       </template>
+
+      <ui-pagination
+        v-model="page"
+        :total="total"
+        show-total
+        @change="onPage"
+      ></ui-pagination>
     </ui-table>
   </div>
 </template>
@@ -52,7 +67,9 @@ const tbody = [
 
 const state = reactive({
   selectedRows: [],
-  users: []
+  users: [],
+  total: 0,
+  page: 1
 });
 
 export default {
@@ -63,6 +80,7 @@ export default {
     onBeforeMount(async () => {
       let data = await store.getUsers();
       state.users = data.rows;
+      state.total = data.count;
     });
 
     return {
@@ -78,6 +96,9 @@ export default {
           console.log('gg');
         }
       });
+    },
+    onPage(page) {
+      state.page = page;
     }
   }
 };
