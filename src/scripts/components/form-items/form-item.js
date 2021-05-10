@@ -41,5 +41,12 @@ export default {
           ? this.formData[this.config.key]
           : this.config.value
     };
+  },
+  watch: {
+    formData(val) {
+      if (val[this.config.key]) {
+        this.value = val[this.config.key];
+      }
+    }
   }
 };

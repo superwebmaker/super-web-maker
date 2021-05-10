@@ -7,9 +7,24 @@ async function getUsers() {
   return data;
 }
 
+function createUser() {
+  console.log('createUser');
+}
+
+function updateUser() {
+  console.log('updateUser');
+}
+
+function removeUser(id) {
+  console.log(`remove user: ${id}`);
+}
+
 const useUserStore = () => {
   return {
-    getUsers
+    getUsers,
+    createUser,
+    updateUser,
+    removeUser
   };
 };
 

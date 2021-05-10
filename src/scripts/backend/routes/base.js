@@ -17,11 +17,6 @@ let baseRoutes = [
         path: 'dashboard',
         name: 'admin.index',
         component: Dashboard
-      },
-      {
-        path: 'test',
-        name: 'admin.test',
-        component: Test
       }
     ],
     meta: { requiresAuth: true }
@@ -30,6 +25,11 @@ let baseRoutes = [
     path: '/login',
     name: 'admin.login',
     component: Login
+  },
+  {
+    path: '/test',
+    name: 'admin.test',
+    component: Test
   }
 ];
 

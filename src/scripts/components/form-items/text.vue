@@ -12,7 +12,7 @@
       :maxlength="config.maxlength || null"
       :with-counter="!!config.maxlength"
       :attrs="{ readonly }"
-      @input="$emit('change', config.key, $event)"
+      @update:modelValue="$emit('change', config.key, $event)"
     ></ui-textfield>
   </ui-input-field>
 </template>
