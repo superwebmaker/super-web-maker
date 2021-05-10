@@ -2,7 +2,7 @@
   <div class="page--user-detail">
     <ui-detail-view
       title="User"
-      :config-form="configForm"
+      :form-config="formConfig"
       :api="api"
       :data="formData"
       :validations="validations"
@@ -13,7 +13,7 @@
 <script>
 import { reactive, toRefs, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
-import configForm from '@/backend/config/form-items';
+import formConfig from '@/backend/config/form-items';
 
 const state = reactive({
   formData: {}
@@ -49,7 +49,7 @@ export default {
     return {
       ...toRefs(state),
       api,
-      configForm, // For Test
+      formConfig, // For Test
       validations
     };
   }

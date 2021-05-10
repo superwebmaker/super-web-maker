@@ -1,13 +1,6 @@
 // NOTE: 动态表单各组件例子
 export default [
   {
-    type: 'alert',
-    label: '提示消息',
-    key: 'message',
-    value: 'Hello BalmUI',
-    required: false
-  },
-  {
     type: 'text',
     label: '网页链接',
     key: 'link',
@@ -152,30 +145,6 @@ export default [
       {
         label: 'Item 2',
         value: 2
-      }
-    ],
-    required: true
-  },
-  {
-    type: 'radio-with-switch',
-    label: '单选项2',
-    key: 'radio2',
-    value: {
-      checked: 2,
-      toggle: true
-    },
-    options: [
-      {
-        label: 'Item 1',
-        value: 1,
-        description: ['aaa', 'bbb'],
-        switch: true
-      },
-      {
-        label: 'Item 2',
-        value: 2,
-        description: ['ccc', 'ddd'],
-        switch: true
       }
     ],
     required: true

@@ -7,11 +7,14 @@
       :thead="thead"
       :tbody="tbody"
       confirm-message="Are you sure to remove user?"
+      :search-form-config="formConfig"
     ></ui-table-view>
   </div>
 </template>
 
 <script>
+import formConfig from '@/backend/config/form-items';
+
 const api = {
   read: 'getUsers',
   delete: 'removeUser',
@@ -30,6 +33,7 @@ const thead = [
   'Updated',
   'Actions'
 ];
+
 const tbody = [
   'id',
   'name',
@@ -47,7 +51,8 @@ export default {
     return {
       api,
       thead,
-      tbody
+      tbody,
+      formConfig // For test
     };
   }
 };

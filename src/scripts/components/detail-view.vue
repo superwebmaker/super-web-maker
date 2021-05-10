@@ -3,13 +3,13 @@
     <h2 v-if="title">{{ isNew ? 'Create' : 'Edit' }} {{ title }}</h2>
 
     <ui-form
-      v-if="configForm.length"
+      v-if="formConfig.length"
       type="|"
       class="yb-detail-view__form"
       action-align="center"
     >
       <template #default="{ itemClass, subitemClass, actionClass }">
-        <template v-for="configData in configForm" :key="configData.key">
+        <template v-for="configData in formConfig" :key="configData.key">
           <component
             :is="`input-${configData.type}`"
             :config="configData"
@@ -60,7 +60,7 @@ export default {
       default: '',
       required: true
     },
-    configForm: {
+    formConfig: {
       type: Array,
       default() {
         return [];

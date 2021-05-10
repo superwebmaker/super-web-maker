@@ -21,7 +21,6 @@ import InputDatepicker from '@/components/form-items/datepicker';
 import InputChips from '@/components/form-items/chips';
 import InputSwitch from '@/components/form-items/switch';
 import InputRadio from '@/components/form-items/radio';
-// import InputAlert from '@/components/form-items/alert';
 import InputMultiSelect from '@/components/form-items/multi-select';
 
 function createBackendApp() {
@@ -49,7 +48,6 @@ function createBackendApp() {
   app.component(InputChips.name, InputChips);
   app.component(InputSwitch.name, InputSwitch);
   app.component(InputRadio.name, InputRadio);
-  // app.component(InputAlert.name, InputAlert);
   app.component(InputMultiSelect.name, InputMultiSelect);
 
   app.mount('#app');

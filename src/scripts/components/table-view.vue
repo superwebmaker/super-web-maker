@@ -2,8 +2,8 @@
   <div class="yb-table-view">
     <h2 v-if="title">{{ title }}</h2>
 
-    <!-- <ui-form
-      v-if="configSearchForm.length"
+    <ui-form
+      v-if="searchFormConfig.length"
       class="yb-table-view__conditions"
       nowrap
       action-align="center"
@@ -11,7 +11,7 @@
       <template #default="{ itemClass, subitemClass, actionClass }">
         <ui-grid>
           <ui-grid-cell
-            v-for="configData in configSearchForm"
+            v-for="configData in searchFormConfig"
             :key="configData.key"
           >
             <component
@@ -26,11 +26,10 @@
         </ui-grid>
 
         <ui-form-field :class="[itemClass, actionClass]">
-          <ui-button outlined @click="onReset">重置</ui-button>
-          <ui-button raised @click="onSearch">搜索</ui-button>
+          <ui-button raised @click="onSearch">Search</ui-button>
         </ui-form-field>
       </template>
-    </ui-form> -->
+    </ui-form>
 
     <section class="table-view-topbar">
       <ui-button icon="add" raised @click="router.push({ name: routeName })">
@@ -120,7 +119,7 @@ export default {
       type: String,
       default: 'Are you sure to remove this data?'
     },
-    configSearchForm: {
+    searchFormConfig: {
       type: Array,
       default() {
         return [];
@@ -158,10 +157,15 @@ export default {
           this.$store[this.api.delete](id);
         }
       });
+    },
+    onChange(key, value) {
+      state.formData[key] = value;
+    },
+    onSearch() {
+      state.page = 1;
+      this.$store[this.api.search](state.formData);
     }
-  },
-  onReset() {},
-  onSearch() {}
+  }
 };
 </script>
   
