@@ -34,16 +34,31 @@
       selected-key="id"
     >
       <template #actions="{ data }">
-        <router-link :to="{ name: routeName, params: { id: data.id } }">
-          <ui-icon>edit</ui-icon>
-        </router-link>
-        <ui-icon @click="removeRowData(data)">delete</ui-icon>
+        <template
+          v-for="(action, actionIndex) in actionConfig"
+          :key="actionIndex"
+        >
+          <ui-icon v-if="action.type === 'icon'" @click="action.onClick(data)">
+            {{ action.icon }}
+          </ui-icon>
+          <ui-button
+            v-else-if="action.type === 'button'"
+            @click="action.onClick(data)"
+          >
+            {{ action.text }}
+          </ui-button>
+          <router-link v-else :to="action.url(data)">
+            <ui-icon v-if="action.icon">{{ action.icon }}</ui-icon>
+            <span v-if="action.text">{{ action.text }}</span>
+          </router-link>
+        </template>
       </template>
 
       <ui-pagination
         v-model="page"
         :total="total"
         show-total
+        show-jumper
         @change="getData"
       ></ui-pagination>
     </ui-table>
@@ -87,11 +102,13 @@ export default {
         return [];
       }
     },
-    confirmMessage: {
-      type: String,
-      default: 'Are you sure to remove this data?'
-    },
     formConfig: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    actionConfig: {
       type: Array,
       default() {
         return [];
@@ -134,13 +151,6 @@ export default {
     };
   },
   methods: {
-    removeRowData({ id }) {
-      this.$confirm(this.confirmMessage).then((result) => {
-        if (result) {
-          this.$store[`remove${toCapitalize(props.model)}`](id);
-        }
-      });
-    },
     onSearch() {
       this.page = 1;
       this.$store[this.storeApiFn](this.formData);

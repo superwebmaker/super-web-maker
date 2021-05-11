@@ -6,5 +6,6 @@ body {
 }
 
 html {
+  overflow-y: hidden;
   word-break: initial; // NOTE: bugfix for `sanitize.css`
 }

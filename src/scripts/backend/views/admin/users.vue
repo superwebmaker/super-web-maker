@@ -6,13 +6,15 @@
       routeName="admin.user"
       :thead="thead"
       :tbody="tbody"
-      confirm-message="Are you sure to remove user?"
       :form-config="formConfig"
+      :action-config="actionConfig"
     ></table-view>
   </div>
 </template>
 
 <script>
+import { useStore } from 'balm-ui';
+import { useConfirm } from 'balm-ui-plus';
 import formConfig from '@/backend/config/form-items';
 
 const thead = [
@@ -39,13 +41,45 @@ const tbody = [
   }
 ];
 
+const actionConfig = [
+  {
+    type: 'link',
+    icon: 'edit',
+    url(data) {
+      return { name: 'admin.user', params: { id: data.id } };
+    }
+  },
+  {
+    type: 'button',
+    text: 'Button Text',
+    onClick(data) {
+      console.log(data);
+    }
+  },
+  {
+    type: 'icon',
+    icon: 'edit',
+    onClick({ id }) {
+      const $confirm = useConfirm();
+      const store = useStore();
+
+      $confirm('Are you sure to remove user?').then((result) => {
+        if (result) {
+          store.removeUser(id);
+        }
+      });
+    }
+  }
+];
+
 export default {
   name: 'Users',
   setup() {
     return {
       thead,
       tbody,
-      formConfig // For test
+      formConfig, // For test
+      actionConfig
     };
   }
 };
