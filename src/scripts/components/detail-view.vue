@@ -38,12 +38,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { useValidator } from 'balm-ui';
 import { toCapitalize } from '@/utils';
 
-const state = reactive({
-  detailFormData: {},
-  useValidator: false,
-  errorMessage: ''
-});
-
 export default {
   name: 'DetailView',
   props: {
@@ -78,6 +72,12 @@ export default {
     }
   },
   setup(props) {
+    const state = reactive({
+      detailFormData: {},
+      useValidator: false,
+      errorMessage: ''
+    });
+
     const route = useRoute();
     const router = useRouter();
     const validator = useValidator();
@@ -110,10 +110,10 @@ export default {
 
     return {
       ...toRefs(state),
-      isNew,
-      storeApiFn,
       router,
-      validator
+      validator,
+      isNew,
+      storeApiFn
     };
   },
   methods: {
@@ -122,15 +122,13 @@ export default {
     },
     async onRequest() {
       await this.$store[this.storeApiFn](
-        Object.assign({}, state.detailFormData)
+        Object.assign({}, this.detailFormData)
       );
     },
     onSave() {
-      if (state.useValidator) {
-        const { valid, message } = this.validator.validate(
-          state.detailFormData
-        );
-        state.errorMessage = message;
+      if (this.useValidator) {
+        const { valid, message } = this.validator.validate(this.detailFormData);
+        this.errorMessage = message;
 
         if (valid) {
           this.onRequest();

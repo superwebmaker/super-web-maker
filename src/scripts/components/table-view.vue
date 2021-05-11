@@ -50,20 +50,12 @@
     <p v-else class="no-data">No Data</p>
   </div>
 </template>
-  
+
 <script>
 import { reactive, toRefs, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'balm-ui';
 import { toCapitalize } from '@/utils';
-
-const state = reactive({
-  formData: {},
-  selectedRows: [],
-  tdata: [],
-  total: 0,
-  page: 1
-});
 
 export default {
   name: 'TableView',
@@ -107,6 +99,14 @@ export default {
     }
   },
   setup(props) {
+    const state = reactive({
+      formData: {},
+      selectedRows: [],
+      tdata: [],
+      total: 0,
+      page: 1
+    });
+
     const router = useRouter();
     const store = useStore();
 
@@ -142,10 +142,9 @@ export default {
       });
     },
     onSearch() {
-      state.page = 1;
-      this.$store[this.storeApiFn](state.formData);
+      this.page = 1;
+      this.$store[this.storeApiFn](this.formData);
     }
   }
 };
 </script>
-  

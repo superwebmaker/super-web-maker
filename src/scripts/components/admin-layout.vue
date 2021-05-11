@@ -72,12 +72,6 @@ import { useEvent, useBus, useStore } from 'balm-ui';
 import { useAlert } from 'balm-ui-plus';
 import menu from '@/backend/config/menu';
 
-const state = reactive({
-  routerReady: false,
-  routerError: false,
-  showUserMenu: false
-});
-
 export default {
   name: 'AdminLayout',
   props: {
@@ -87,6 +81,12 @@ export default {
     }
   },
   setup() {
+    const state = reactive({
+      routerReady: false,
+      routerError: false,
+      showUserMenu: false
+    });
+
     const route = useRoute();
     const router = useRouter();
     const balmUI = useEvent();
@@ -124,9 +124,9 @@ export default {
     });
 
     return {
+      ...toRefs(state),
       balmUI,
       store,
-      ...toRefs(state),
       username,
       menu
     };

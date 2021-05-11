@@ -41,10 +41,6 @@
 import { reactive, toRefs, computed, watch } from 'vue';
 import { types } from 'balm-ui';
 
-const state = reactive({
-  formData: {}
-});
-
 export default {
   name: 'FormView',
   props: {
@@ -71,6 +67,10 @@ export default {
     }
   },
   setup(props, { emit }) {
+    const state = reactive({
+      formData: {}
+    });
+
     const isSearchForm = computed(() => props.type === 'horizontal');
 
     watch(
@@ -89,8 +89,8 @@ export default {
   methods: {
     onChange(key, value) {
       if (types.isString(key)) {
-        state.formData[key] = value;
-        this.emit('update:modelValue', state.formData);
+        this.formData[key] = value;
+        this.emit('update:modelValue', this.formData);
       }
     }
   }

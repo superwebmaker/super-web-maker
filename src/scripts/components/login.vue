@@ -47,20 +47,20 @@ const validations = {
   }
 };
 
-const state = reactive({
-  formData: {
-    account: '',
-    password: ''
-  },
-  alert: {
-    state: 'warning',
-    message: ''
-  }
-});
-
 export default {
   name: 'Login',
   setup() {
+    const state = reactive({
+      formData: {
+        account: '',
+        password: ''
+      },
+      alert: {
+        state: 'warning',
+        message: ''
+      }
+    });
+
     const bus = useBus();
     const store = useStore();
     const balmUI = useValidator();
@@ -80,16 +80,16 @@ export default {
   },
   methods: {
     login() {
-      let result = this.balmUI.validate(state.formData);
+      let result = this.balmUI.validate(this.formData);
       let { valid, message } = result;
 
-      state.alert = {
+      this.alert = {
         state: 'warning',
         message
       };
 
       if (valid) {
-        this.store.login(state.formData);
+        this.store.login(this.formData);
       }
     }
   }
