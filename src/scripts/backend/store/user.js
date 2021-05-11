@@ -2,7 +2,7 @@ import { useHttp } from '@/plugins/http';
 
 const http = useHttp();
 
-async function getUsers() {
+async function getUserList() {
   let data = await http.get('/users');
   return data;
 }
@@ -21,7 +21,7 @@ function removeUser(id) {
 
 const useUserStore = () => {
   return {
-    getUsers,
+    getUserList,
     createUser,
     updateUser,
     removeUser

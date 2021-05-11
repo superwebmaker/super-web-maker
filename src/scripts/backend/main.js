@@ -8,8 +8,9 @@ import BalmUIPlus from 'balm-ui-plus';
 import validatorRules from '@/config/validator-rules';
 import myStore from '@/backend/store';
 // Ui pro
-import UiTableView from '@/components/table-view';
-import UiDetailView from '@/components/detail-view';
+import FormView from '@/components/form-view';
+import TableView from '@/components/table-view';
+import DetailView from '@/components/detail-view';
 // Form items
 import InputText from '@/components/form-items/text';
 import InputTextarea from '@/components/form-items/textarea';
@@ -35,8 +36,9 @@ function createBackendApp() {
   });
   app.use(BalmUIPlus);
 
-  app.component(UiTableView.name, UiTableView);
-  app.component(UiDetailView.name, UiDetailView);
+  app.component(FormView.name, FormView);
+  app.component(TableView.name, TableView);
+  app.component(DetailView.name, DetailView);
 
   app.component(InputText.name, InputText);
   app.component(InputTextarea.name, InputTextarea);

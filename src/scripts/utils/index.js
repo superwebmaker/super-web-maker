@@ -15,3 +15,7 @@ export function openInNewTab(url) {
   link.rel = 'noopener';
   link.click();
 }
+
+export function toCapitalize(str) {
+  return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+}

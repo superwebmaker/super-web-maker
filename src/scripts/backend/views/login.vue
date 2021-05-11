@@ -6,18 +6,18 @@
       <p>{{ store.user }}</p>
       <ui-button @click="store.logout">Logout</ui-button>
     </div>
-    <ui-login v-else></ui-login>
+    <login v-else></login>
   </div>
 </template>
 
 <script>
 import { useStore } from 'balm-ui';
-import UiLogin from '@/components/login';
+import Login from '@/components/login';
 
 export default {
   name: 'AdminLogin',
   components: {
-    UiLogin
+    Login
   },
   setup() {
     const store = useStore();

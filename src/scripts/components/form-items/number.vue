@@ -12,7 +12,7 @@
       :min="config.min"
       :disabled="disabled"
       :attrs="{ readonly }"
-      @input="$emit('change', config.key, $event)"
+      @update:modelValue="$emit('change', config.key, $event)"
     ></ui-textfield>
   </ui-input-field>
 </template>

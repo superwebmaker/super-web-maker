@@ -16,7 +16,7 @@
           :name="config.key"
           :value="option.value"
           :disabled="disabled || readonly"
-          @change="$emit('change', config.key, $event)"
+          @update:modelValue="$emit('change', config.key, $event)"
         ></ui-radio>
         <label :for="`${config.key}-${index}`">{{ option.label }}</label>
       </ui-form-field>

@@ -10,7 +10,7 @@
         v-model="value"
         :input-id="randomSwitchId"
         :disabled="readonly"
-        @change="onChange"
+        @update:modelValue="onChange"
       ></ui-switch>
       <label :for="randomSwitchId">{{ label }}</label>
     </ui-form-field>

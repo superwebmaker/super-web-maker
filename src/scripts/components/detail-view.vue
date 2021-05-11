@@ -1,61 +1,58 @@
 <template>
   <div class="yb-detail-view">
-    <h2 v-if="title">{{ isNew ? 'Create' : 'Edit' }} {{ title }}</h2>
+    <h2 class="title">
+      {{ isNew ? 'Create' : 'Edit' }} <slot name="title">{{ title }}</slot>
+    </h2>
 
-    <ui-form
+    <form-view
       v-if="formConfig.length"
+      v-model="detailFormData"
+      :form-config="formConfig"
       type="|"
       class="yb-detail-view__form"
-      action-align="center"
     >
-      <template #default="{ itemClass, subitemClass, actionClass }">
-        <template v-for="configData in formConfig" :key="configData.key">
-          <component
-            :is="`input-${configData.type}`"
-            :config="configData"
-            :form-data="formData"
-            :item-class="itemClass"
-            :subitem-class="subitemClass"
-            @change="onChange"
-          ></component>
-        </template>
-
+      <template #after>
         <ui-alert v-if="errorMessage" state="warning">{{
           errorMessage
         }}</ui-alert>
-
-        <ui-form-field :class="[itemClass, actionClass]">
-          <ui-button outlined @click="onCancel">Cancel</ui-button>
-          <ui-button raised @click="onSave">Save</ui-button>
-        </ui-form-field>
       </template>
-    </ui-form>
+      <template #actions>
+        <ui-button outlined @click="onCancel">Cancel</ui-button>
+        <ui-button raised @click="onSave">Save</ui-button>
+      </template>
+    </form-view>
     <ui-spinner v-else active></ui-spinner>
   </div>
 </template>
-  
+
 <script>
 import {
-  ref,
   reactive,
   toRefs,
+  computed,
   watch,
   onBeforeMount,
   onBeforeUnmount
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useValidator } from 'balm-ui';
+import { toCapitalize } from '@/utils';
 
 const state = reactive({
-  formData: {},
+  detailFormData: {},
   useValidator: false,
   errorMessage: ''
 });
 
 export default {
-  name: 'UiDetailView',
+  name: 'DetailView',
   props: {
     title: {
+      type: String,
+      default: '',
+      required: true
+    },
+    model: {
       type: String,
       default: '',
       required: true
@@ -67,17 +64,7 @@ export default {
       },
       required: true
     },
-    api: {
-      type: Object,
-      default() {
-        return {
-          create: '',
-          update: ''
-        };
-      },
-      required: true
-    },
-    data: {
+    formData: {
       type: Object,
       default() {
         return {};
@@ -97,10 +84,16 @@ export default {
 
     const isNew = !route.params.id;
 
+    const storeApiFn = computed(() =>
+      isNew
+        ? `create${toCapitalize(props.model)}`
+        : `update${toCapitalize(props.model)}`
+    );
+
     watch(
-      () => props.data,
+      () => props.formData,
       (val) => {
-        state.formData = val;
+        state.detailFormData = val;
       }
     );
 
@@ -116,27 +109,27 @@ export default {
     });
 
     return {
+      ...toRefs(state),
       isNew,
+      storeApiFn,
       router,
-      validator,
-      ...toRefs(state)
+      validator
     };
   },
   methods: {
-    onChange(key, value) {
-      state.formData[key] = value;
-    },
     onCancel() {
       this.router.back();
     },
     async onRequest() {
-      await this.$store[this.isNew ? this.api.create : this.api.update](
-        Object.assign({}, state.formData)
+      await this.$store[this.storeApiFn](
+        Object.assign({}, state.detailFormData)
       );
     },
     onSave() {
       if (state.useValidator) {
-        const { valid, message } = this.validator.validate(state.formData);
+        const { valid, message } = this.validator.validate(
+          state.detailFormData
+        );
         state.errorMessage = message;
 
         if (valid) {
@@ -149,4 +142,3 @@ export default {
   }
 };
 </script>
-  

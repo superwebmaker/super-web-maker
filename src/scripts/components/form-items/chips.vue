@@ -20,7 +20,7 @@
       v-model="value"
       type="filter"
       :options="config.options"
-      @change="$emit('change', config.key, $event)"
+      @update:modelValue="$emit('change', config.key, $event)"
     ></ui-chips>
   </ui-input-field>
 </template>

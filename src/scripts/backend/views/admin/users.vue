@@ -1,25 +1,19 @@
 <template>
   <div class="page--users">
-    <ui-table-view
+    <table-view
       title="User List"
+      model="user"
       routeName="admin.user"
-      :api="api"
       :thead="thead"
       :tbody="tbody"
       confirm-message="Are you sure to remove user?"
-      :search-form-config="formConfig"
-    ></ui-table-view>
+      :form-config="formConfig"
+    ></table-view>
   </div>
 </template>
 
 <script>
 import formConfig from '@/backend/config/form-items';
-
-const api = {
-  read: 'getUsers',
-  delete: 'removeUser',
-  search: 'getUsers'
-};
 
 const thead = [
   {
@@ -49,7 +43,6 @@ export default {
   name: 'Users',
   setup() {
     return {
-      api,
       thead,
       tbody,
       formConfig // For test

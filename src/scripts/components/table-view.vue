@@ -1,35 +1,20 @@
 <template>
   <div class="yb-table-view">
-    <h2 v-if="title">{{ title }}</h2>
+    <h2 class="title">
+      <slot name="title">{{ title }}</slot>
+    </h2>
 
-    <ui-form
-      v-if="searchFormConfig.length"
-      class="yb-table-view__conditions"
+    <form-view
+      v-if="formConfig.length"
+      v-model="formData"
+      :form-config="formConfig"
       nowrap
-      action-align="center"
+      class="yb-table-view__conditions"
     >
-      <template #default="{ itemClass, subitemClass, actionClass }">
-        <ui-grid>
-          <ui-grid-cell
-            v-for="configData in searchFormConfig"
-            :key="configData.key"
-          >
-            <component
-              :is="`input-${configData.type}`"
-              :config="configData"
-              :form-data="formData"
-              :item-class="itemClass"
-              :subitem-class="subitemClass"
-              @change="onChange"
-            ></component>
-          </ui-grid-cell>
-        </ui-grid>
-
-        <ui-form-field :class="[itemClass, actionClass]">
-          <ui-button raised @click="onSearch">Search</ui-button>
-        </ui-form-field>
+      <template #actions>
+        <ui-button raised @click="onSearch">Search</ui-button>
       </template>
-    </ui-form>
+    </form-view>
 
     <section class="table-view-topbar">
       <ui-button icon="add" raised @click="router.push({ name: routeName })">
@@ -70,6 +55,7 @@
 import { reactive, toRefs, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'balm-ui';
+import { toCapitalize } from '@/utils';
 
 const state = reactive({
   formData: {},
@@ -80,9 +66,14 @@ const state = reactive({
 });
 
 export default {
-  name: 'UiTableView',
+  name: 'TableView',
   props: {
     title: {
+      type: String,
+      default: '',
+      required: true
+    },
+    model: {
       type: String,
       default: '',
       required: true
@@ -90,17 +81,6 @@ export default {
     routeName: {
       type: String,
       default: '',
-      required: true
-    },
-    api: {
-      type: Object,
-      default() {
-        return {
-          read: '',
-          delete: '',
-          search: ''
-        };
-      },
       required: true
     },
     thead: {
@@ -119,7 +99,7 @@ export default {
       type: String,
       default: 'Are you sure to remove this data?'
     },
-    searchFormConfig: {
+    formConfig: {
       type: Array,
       default() {
         return [];
@@ -130,11 +110,13 @@ export default {
     const router = useRouter();
     const store = useStore();
 
+    const storeApiFn = `get${toCapitalize(props.model)}List`;
+
     async function getData(page = state.page) {
       const postData = Object.assign({}, state.formData, {
         page
       });
-      const { rows, count } = await store[props.api.read](postData);
+      const { rows, count } = await store[storeApiFn](postData);
 
       state.tdata = rows;
       state.total = count;
@@ -146,6 +128,7 @@ export default {
 
     return {
       ...toRefs(state),
+      storeApiFn,
       router,
       getData
     };
@@ -154,16 +137,13 @@ export default {
     removeRowData({ id }) {
       this.$confirm(this.confirmMessage).then((result) => {
         if (result) {
-          this.$store[this.api.delete](id);
+          this.$store[`remove${toCapitalize(props.model)}`](id);
         }
       });
     },
-    onChange(key, value) {
-      state.formData[key] = value;
-    },
     onSearch() {
       state.page = 1;
-      this.$store[this.api.search](state.formData);
+      this.$store[this.storeApiFn](state.formData);
     }
   }
 };

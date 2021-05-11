@@ -10,7 +10,7 @@
       :options="config.options"
       defaultLabel="请选择"
       :disabled="disabled || readonly"
-      @change="$emit('change', config.key, $event)"
+      @update:modelValue="$emit('change', config.key, $event)"
     ></ui-select>
   </ui-input-field>
 </template>

@@ -79,7 +79,7 @@ const state = reactive({
 });
 
 export default {
-  name: 'UiAdminLayout',
+  name: 'AdminLayout',
   props: {
     title: {
       type: String,

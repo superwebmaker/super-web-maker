@@ -18,7 +18,7 @@
       :config="pickerConfig"
       :placeholder="config.placeholder || ' '"
       :disabled="disabled"
-      @change="$emit('change', config.key, $event)"
+      @update:modelValue="$emit('change', config.key, $event)"
     ></ui-datepicker>
   </ui-input-field>
 </template>

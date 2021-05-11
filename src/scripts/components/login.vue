@@ -59,7 +59,7 @@ const state = reactive({
 });
 
 export default {
-  name: 'UiLogin',
+  name: 'Login',
   setup() {
     const bus = useBus();
     const store = useStore();

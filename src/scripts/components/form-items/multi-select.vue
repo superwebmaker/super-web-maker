@@ -11,14 +11,14 @@
         :options="config.provinceOptions"
         default-label="请选择平台所属地区"
         :disabled="disabled || readonly"
-        @change="onProvinceChange(config, $event)"
+        @update:modelValue="onProvinceChange(config, $event)"
       ></ui-select>
       <ui-select
         v-model="value"
         :options="options"
         default-label="请选择媒体平台"
         :disabled="disabled || readonly"
-        @change="$emit('change', config.key, $event)"
+        @update:modelValue="$emit('change', config.key, $event)"
       ></ui-select>
     </div>
   </ui-input-field>

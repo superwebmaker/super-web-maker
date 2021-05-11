@@ -1,12 +1,12 @@
 <template>
   <div class="page--user-detail">
-    <ui-detail-view
+    <detail-view
       title="User"
+      model="user"
       :form-config="formConfig"
-      :api="api"
-      :data="formData"
+      :form-data="formData"
       :validations="validations"
-    ></ui-detail-view>
+    ></detail-view>
   </div>
 </template>
 
@@ -23,11 +23,6 @@ const validations = {
   intro: {
     validator: 'required'
   }
-};
-
-const api = {
-  create: 'createUser',
-  update: 'updateUser'
 };
 
 export default {
@@ -48,7 +43,6 @@ export default {
 
     return {
       ...toRefs(state),
-      api,
       formConfig, // For Test
       validations
     };
