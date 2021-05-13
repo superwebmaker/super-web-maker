@@ -51,6 +51,7 @@
     "koa-json-error": "^3.1.2",
     "koa-jwt2": "^1.0.3",
     "mysql2": "^2.2.5",
+    "nodemailer": "^6.6.0",
     "sanitize.css": "^12.0.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
@@ -61,7 +62,7 @@
     "autod": "^3.1.0",
     "autod-egg": "^1.1.0",
     "babel-eslint": "^10.1.0",
-    "balm": "^3.16.0",
+    "balm": "^4.0.0-canary.0a8253b2.0",
     "egg-bin": "^4.16.0",
     "egg-ci": "^1.18.0",
     "egg-mock": "^4.1.0",

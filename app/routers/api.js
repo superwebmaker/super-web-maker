@@ -4,6 +4,8 @@ module.exports = (app) => {
 
   apiRouter.get('/auth/me', jwt, controller.backend.auth.me);
 
+  apiRouter.post('/send-mail', controller.api.mailer.send);
+
   apiRouter.resources('modules', '/modules', jwt, controller.api.module);
   apiRouter.resources('users', '/users', jwt, controller.api.user);
 };
